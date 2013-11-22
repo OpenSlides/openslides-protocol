@@ -2,3 +2,12 @@
 
 # Virtual Python Environment builder
 .virtualenv/
+
+# Python compiled files
+*.pyc
+
+# Development user data (settings, database, media, search index)
+settings.py
+database.sqlite
+media/
+whoosh_index/
