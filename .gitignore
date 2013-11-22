@@ -1,0 +1,4 @@
+# Patters to be ignored by git
+
+# Virtual Python Environment builder
+.virtualenv/
