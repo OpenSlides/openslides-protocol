@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load mptt_tags %}
+{% load tags %}
+
+{% block title%}
+    {% trans 'Protocol' %} – {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans 'Protocol' %}</h1>
+    <p><a href='#' class="btn">{% trans 'Get final protocol' %}</a></p>
+    <ul class="">
+        {% recursetree items %}
+        <li >
+            <a href="{{ node.pk }}/">{{ node }}</a>
+            {% if not node.is_leaf_node %}
+            <ul>
+                {{ children }}
+            </ul>
+            {% endif %}
+        </li>
+        {% endrecursetree %}
+    </ul>
+{% endblock %}

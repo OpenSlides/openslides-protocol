@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load tags %}
+
+{% block title%}
+    {% trans 'Protocol' %} – {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% blocktrans with item=itemprotocol.item %}
+            Protocol for {{ item }}
+        {% endblocktrans %}
+    </h1>
+    <p>
+        <a href="#" class="btn">{% trans 'Previous item' %}</a>
+        {{ itemprotocol.item }}
+        <a href="#" class="btn">{% trans 'Next item' %}</a>
+    </p>
+    <form action="" method="post">{% csrf_token %}
+        {% include "form.html" %}
+        <p>
+        {% include "formbuttons_save.html" %}
+            <a href='{% url 'item_overview' %}' class="btn">
+                {% trans 'Cancel' %}
+            </a>
+        </p>
+        <small>* {% trans "required" %}</small>
+    </form>
+{% endblock %}
