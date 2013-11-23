@@ -84,3 +84,11 @@ class ItemProtocolView(TestCase):
         self.assertEqual(ItemProtocol.objects.get(item=item).protocol, 'Ree1eidaPahLeeShu2qu')
         message = '<strong>Protocol for test_title_boib2eef5oi9Ieg5caic</strong> was successfully modified.'
         self.assertTrue(message in response.cookies['messages'].value)
+
+
+class TestFinalProtocol(TestCase):
+    def test_get(self):
+        client = Client()
+        client.login(username='admin', password='admin')
+        response = client.get('/openslides_protocol/protocol/')
+        self.assertEqual(response.status_code, 200)

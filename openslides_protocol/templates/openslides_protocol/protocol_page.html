@@ -10,7 +10,7 @@
 
 {% block content %}
     <h1>{% trans 'Protocol' %}</h1>
-    <p><a href='#' class="btn">{% trans 'Get final protocol' %}</a></p>
+    <p><a href="{% url 'protocol_protocol' %}" class="btn">{% trans 'Get final protocol' %}</a></p>
     <ul class="">
         {% recursetree items %}
         <li >
