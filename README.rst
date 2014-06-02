@@ -14,7 +14,7 @@ This plugin provides a protocol of events managed in OpenSlides.
 Requirements
 ============
 
-OpenSlides 1.5 (http://openslides.org/)
+OpenSlides 1.6 (http://openslides.org/)
 
 
 Install

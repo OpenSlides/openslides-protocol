@@ -21,7 +21,7 @@ class ProtocolPage(TemplateView):
     View with the link to all items and to the download the final protocol.
     """
     template_name = 'openslides_protocol/protocol_page.html'
-    permission_required = 'openslides_protocol.can_write_protocol'
+    required_permission = 'openslides_protocol.can_write_protocol'
 
     def get_context_data(self, *args, **kwargs):
         """
@@ -37,7 +37,7 @@ class ItemProtocolFormView(UpdateView):
     View for a protocol entry for an agenda item.
     """
     form_class = ItemProtocolForm
-    permission_required = 'openslides_protocol.can_write_protocol'
+    required_permission = 'openslides_protocol.can_write_protocol'
 
     def dispatch(self, *args, **kwargs):
         """
@@ -59,7 +59,7 @@ class ItemProtocolFormView(UpdateView):
 class Protocol(PermissionMixin, View):
     """
     """
-    permission_required = 'openslides_protocol.can_write_protocol'
+    required_permission = 'openslides_protocol.can_write_protocol'
 
     def get(self, *args, **kwargs):
         """
@@ -79,15 +79,3 @@ class Protocol(PermissionMixin, View):
         response = HttpResponse(template.render(context), content_type="text/plain")
         response['Content-Disposition'] = 'attachment; filename="protocol.tex"'
         return response
-
-
-def register_tab(request):
-    """
-    Registers the protocol menu entry.
-    """
-    return Tab(
-        title=_('Protocol'),
-        app='openslides_protocol',
-        url=reverse('protocol_protocol_page'),
-        permission=request.user.has_perm('openslides_protocol.can_write_protocol'),
-        selected=request.path.startswith('/openslides_protocol/'))

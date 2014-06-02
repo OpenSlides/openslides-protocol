@@ -12,7 +12,7 @@
 \usepackage{libertine}  % Schriftart
 
 \title{
-{{ 'event_name'|get_config }}
+Protokol {{ 'event_name'|get_config }}
 }
 
 \date{
@@ -23,9 +23,10 @@
 
 \maketitle
 
+\newpage
 {% for item in items %}
 
-\section*{
+\section*{%
 {{ item }}
 }
 

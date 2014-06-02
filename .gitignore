@@ -2,12 +2,13 @@
 
 # Virtual Python Environment builder
 .virtualenv/
+.venv/
 
 # Python compiled files
 *.pyc
 
-# Development user data (settings, database, media, search index)
-settings.py
-database.sqlite
-media/
-whoosh_index/
+# Misc
+*.swp
+*~
+.DS_Store
+openslides_protocol.egg-info

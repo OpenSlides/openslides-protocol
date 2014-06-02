@@ -15,7 +15,7 @@ class ItemProtocol(models.Model):
     protocol = models.TextField(verbose_name=ugettext_lazy('Protocol'))
 
     class Meta:
-        permissions = (('can_write_protocol', ugettext_noop('Can write protocol entries')),)
+        permissions = (('can_write_protocol', ugettext_noop('Can write protocol')),)
 
     def __unicode__(self):
         return _('Protocol for %(item)s') % {'item': self.item}
