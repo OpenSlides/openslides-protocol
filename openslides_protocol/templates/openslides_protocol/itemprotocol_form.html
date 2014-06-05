@@ -11,7 +11,7 @@
     <h1>
         {% blocktrans with item=itemprotocol.item %}Protocol for {{ item }}{% endblocktrans %}
         <small class="pull-right">
-            <a href="{% url 'protocol_overview' %}" class="btn btn-mini"><i class="icon-chevron-left"></i> {% trans "Back to overview" %}</a>
+            <a href="{% url 'protocol_overview' %}" class="btn btn-mini"><i class="icon-chevron-left"></i> {% trans 'Back to overview' %}</a>
         </small>
     </h1>
     <p>
@@ -20,10 +20,10 @@
         <a href="#" class="btn">{% trans 'Next' %}</a>
     </p>
     <form action="" method="post">{% csrf_token %}
-        {% include "form.html" %}
+        {% include 'form.html' %}
         <p>
-        {% include "formbuttons_save.html" %}
-            <a href='{% url 'item_overview' %}' class="btn">
+        {% include 'formbuttons_save.html' %}
+            <a href="{% url 'item_overview' %}" class="btn">
                 {% trans 'Cancel' %}
             </a>
         </p>

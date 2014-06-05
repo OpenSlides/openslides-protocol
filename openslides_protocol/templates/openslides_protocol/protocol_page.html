@@ -11,9 +11,9 @@
 {% block content %}
     <h1>{% trans 'Protocol' %}</h1>
     <p><a href="{% url 'protocol_export' %}" class="btn">{% trans 'Export protocol as LaTeX' %}</a></p>
-    <ul class="">
+    <ul>
         {% recursetree items %}
-        <li >
+        <li>
             <a href="{{ node.pk }}/">{{ node }}</a>
             {% if not node.is_leaf_node %}
             <ul>

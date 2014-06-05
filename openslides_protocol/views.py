@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext, Template
 from django.template.loader import get_template
-from django.utils.translation import ugettext as _
 
 from openslides.agenda.models import Item
-from openslides.utils.template import Tab
 from openslides.utils.views import PermissionMixin, TemplateView, UpdateView, View
 
 from .forms import ItemProtocolForm
@@ -58,6 +55,7 @@ class ItemProtocolFormView(UpdateView):
 
 class Protocol(PermissionMixin, View):
     """
+    View to get the rendered protocol, e. g. a LaTeX file.
     """
     required_permission = 'openslides_protocol.can_write_protocol'
 

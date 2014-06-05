@@ -11,4 +11,3 @@ class ProtocolMainMenuEntry(MainMenuEntry):
     default_weight = 200
     pattern_name = 'protocol_overview'
     icon_css_class = 'icon-star'
-    #stylesheets = ['css/protocol.css']
