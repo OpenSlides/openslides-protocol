@@ -1,14 +1,24 @@
-# Patters to be ignored by git
+# Patterns of intentionally untracked files that Git should ignore
 
 # Virtual Python Environment builder
-.virtualenv/
 .venv/
+.virtualenv/
 
 # Python compiled files
 *.pyc
 
-# Misc
+# Development user data (settings, database, media, search index)
+settings.py
+database.sqlite
+media/
+whoosh_index/
+
+# Package building
+*.egg-info
+build/
+dist/
+
+# Temporary files
 *.swp
 *~
 .DS_Store
-openslides_protocol.egg-info

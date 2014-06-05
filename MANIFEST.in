@@ -1,0 +1,3 @@
+include AUTHORS LICENSE README.rst requirements.txt
+graft openslides_protocol
+recursive-exclude openslides_protocol *.pyc
