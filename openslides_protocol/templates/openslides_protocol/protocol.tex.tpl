@@ -1,32 +1,34 @@
+{% load i18n %}
 {% load tags %}
 
 \documentclass[%
-    ngerman,  % Spracheinstellung für babel
+    ngerman,  % Language setting for babel
 ]{scrartcl}
 
-\usepackage{babel}  % Spracheinstellung als Klassenoption oben
-\usepackage[utf8]{inputenc}  % Kodierung der Quelldatei
-\usepackage[T1]{fontenc}  % Ausgabekodierung
-\usepackage{textcomp}  % Sonderzeichen z. B. Euro-Zeichen
-\usepackage{ulem} \normalem  % Unterstreichen mit \uline{} möglich
-\usepackage{libertine}  % Schriftart
+\usepackage{babel}  % Language setting see above
+\usepackage[utf8]{inputenc}  % Encoding of source file
+\usepackage[T1]{fontenc}  % Encoding of output file
+\usepackage{textcomp}  % Special characters like euro character
+\usepackage{libertine}  % font
 
-\title{
-{{ 'event_name'|get_config }}
+\title{%
+{% trans 'Protocol' %} {{ 'event_name'|get_config }}%
 }
 
-\date{
-{% if 'event_date'|get_config %}{{ 'event_date'|get_config }}{% else %}\today{% endif %}
+\date{%
+{% if 'event_date'|get_config %}{{ 'event_date'|get_config }}{% else %}\today{% endif %}%
 }
 
 \begin{document}
 
 \maketitle
 
+\newpage
+
 {% for item in items %}
 
-\section*{
-{{ item }}
+\section*{%
+{{ item }}%
 }
 
 {{ item.itemprotocol.protocol }}

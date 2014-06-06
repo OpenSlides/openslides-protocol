@@ -14,12 +14,12 @@ class TestMainMenu(TestCase):
         self.client.login(username='admin', password='admin')
 
     def test_main_menu_entry(self):
-        response = self.client.get('/projector/dashboard/')
-        self.assertContains(response, 'href="/openslides_protocol/"')
+        response = self.client.get('/dashboard/')
+        self.assertContains(response, 'href="/protocol/"')
 
 
 class ProtocolPage(TestCase):
-    url = '/openslides_protocol/'
+    url = '/protocol/'
 
     def setUp(self):
         self.client = Client()
@@ -31,7 +31,7 @@ class ProtocolPage(TestCase):
 
 
 class ItemProtocolView(TestCase):
-    url = '/openslides_protocol/'
+    url = '/protocol/'
 
     def setUp(self):
         self.client = Client()
@@ -90,5 +90,5 @@ class TestFinalProtocol(TestCase):
     def test_get(self):
         client = Client()
         client.login(username='admin', password='admin')
-        response = client.get('/openslides_protocol/protocol/')
+        response = client.get('/protocol/export/')
         self.assertEqual(response.status_code, 200)

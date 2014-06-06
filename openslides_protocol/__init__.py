@@ -1,24 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
-from django.dispatch import receiver
+from inspect import stack
 
-from openslides.core.signals import post_database_setup
-from openslides.participant.models import Group
+for frame in stack():
+    lines = frame[4]
+    if lines and 'Peikee0iuv7uhikuashotohch6eec6ohseuNg7su' in lines[0]:
+        break
+else:
+    from . import main_menu, signals  # noqa
+    from .urls import urlpatterns  # noqa
 
-
-@receiver(post_database_setup, dispatch_uid='openslides_protocol_add_permission')
-def openslides_protocol_add_permission(sender, **kwargs):
-    """
-    Adds the protocol permission the the builtin staff group.
-    """
-    try:
-        group_staff = Group.objects.get(name='Staff', pk=4)
-    except Group.DoesNotExist:
-        # Do not add the protocol permission
-        pass
-    else:
-        ct_openslides_protocol = ContentType.objects.get(app_label='openslides_protocol', model='itemprotocol')
-        protocol_perm = Permission.objects.get(content_type=ct_openslides_protocol, codename='can_write_protocol')
-        group_staff.permissions.add(protocol_perm)
+__verbose_name__ = 'OpenSlides Protocol Plugin'
+__description__ = 'This plugin for OpenSlides provides a protocol of events managed in OpenSlides.'
+__version__ = '1.0-dev'
