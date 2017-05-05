@@ -1,0 +1,135 @@
+<style type="text/css">
+.protocol-hidden > td > span {
+    height: 40px;
+    overflow: hidden;
+    display: inline-grid;
+}
+</style>
+
+<div class="header">
+  <div class="title">
+    <div class="submenu">
+      <button type="button" os-perms="openslides_protocol.can_write_protocol"
+        class="btn btn-default btn-sm" ng-click="selectText()">
+        <i class="fa fa-i-cursor fa-lg"></i>
+        <translate>Select all</translate>
+      </button>
+    </div>
+    <h1 translate>Protocol</h1>
+  </div>
+</div>
+
+<div class="details">
+  <uib-tabset active="activeTab">
+    <uib-tab index="'agenda'" heading="{{ 'Agenda' | translate }}">
+      <div id="agendaSelectContainer">
+        <small><h1 translate>All protocols</h1></small>
+        <ul>
+          <li ng-repeat="item in items">
+            <a ng-href="#item{{ item.id }}">
+              {{ item.getListViewTitle() }}
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <div ng-repeat="item in items | filter : type : 1" id="item{{ item.id }}">
+          <h3>
+            {{ item.getListViewTitle() }}
+          </h3>
+          <div ng-if="hasProtocol(item)" ng-bind-html="getProtocol(item).protocol | trusted"></div>
+        </div>
+      </div>
+    </uib-tab>
+    <uib-tab index="'motion'" heading="{{ 'Motions' | translate }}">
+      <div id="motionSelectContainer">
+        <small><h1 translate>Final versions of all motions</h1></small>
+        <ul>
+          <li ng-repeat="motion in motions | orderBy:'name'">
+            <a ng-href="#motion{{ motion.id }}">
+              {{ motion.identifier }} &ndash; {{ motion.getTitle() }}
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <div ng-repeat="motion in motions | orderBy:'name'" id="motion{{ motion.id }}">
+          <h3>{{ motion.identifier }} &ndash; {{ motion.getTitle() }}</h3>
+          <div><strong translate>State</strong>:
+             <span class="label" ng-class="'label-'+motion.state.css_class">
+               {{ motion.getStateName() }}
+             </span>
+          </div>
+          <div><strong translate>Submitters</strong>:
+            <span ng-repeat="submitter in motion.submitters">
+              {{ submitter.get_full_name() }}<span ng-if="!$last">, </span>
+            </span>
+          </div>
+          <div class="spacer-top"><p>{{ config('motions_preamble') | translate }}</p></div>
+          <div ng-bind-html="motion.getTextByMode('agreed') | trusted"
+            class="motion-text motion-text-changed line-numbers-{{ config('motions_default_line_numbering') }}"></div>
+          <h2 translate>Reason</h2>
+          <div ng-bind-html="motion.getReason() | trusted"></div>
+        </div>
+      </div>
+    </uib-tab>
+    <uib-tab index="'assignments'" heading="{{ 'Elections' | translate }}">
+      <div id="assignmentsSelectContainer">
+        <small><h1 translate>Results of all elections</h1></small>
+        <ul>
+          <li ng-repeat="assignment in assignments | orderBy:'title'">
+            <a ng-href="#assignment{{ assignment.id }}">
+              {{ assignment.agenda_item.getTitle() || assingment.title }}
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <div ng-repeat="assignment in assignments | orderBy:'title'" id="assignment{{ assignment.id }}">
+          <h3>
+            {{ assignment.agenda_item.getTitle() || assingment.title }}
+          </h3>
+          <div>
+            <strong translate>Phase</strong>:
+            <span class="label" ng-class="{'label-primary': assignment.phase == 0,
+                                           'label-warning': assignment.phase == 1,
+                                           'label-success': assignment.phase == 2 }">
+              {{ phases[assignment.phase].display_name | translate }}
+            </span>
+          </div>
+          <div ng-if="assignment.description">
+            <strong translate>Description</strong>:
+            {{ assignment.description }}
+          </div>
+          <div ng-if="assignment.polls.length > 0">
+            <strong translate>Ballots</strong>:
+            <ol>
+              <li ng-repeat="poll in assignment.polls | orderBy:'id'" class="spacer-left-lg">
+                <ul>
+                  <li ng-repeat="option in poll.options | orderBy:'weight'">
+                    {{ option.candidate.get_full_name() }}
+                    <span ng-if="option.is_elected">(<translate>elected</translate>)</span>
+                    <span ng-init="votes = option.getVotes()">
+                      <span ng-repeat="vote in votes">
+                        <span ng-if="poll.pollmethod == 'yna' || poll.pollmethod == 'yn'">{{ vote.label }}</span>:
+                        {{ vote.value }} {{ vote.percentStr }}
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </uib-tab>
+    <uib-tab index="'users'" heading="{{ 'Participants' | translate }}">
+      <div id="usersSelectContainer">
+        <small><h1 translate>All participants</h1></small>
+        <ul>
+          <li ng-repeat="user in users">
+            {{ user.get_full_name() }}
+            <span ng-if="user.is_present">(<translate>Present</translate>)</span>
+          </li>
+        </ul>
+      </div>
+    </uib-tab>
+  </uib-tabset>
+</div>

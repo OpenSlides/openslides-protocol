@@ -1,43 +1,37 @@
-# -*- coding: utf-8 -*-
 #
 # Settings file for tests only
 #
 
-import os
 from openslides.global_settings import *  # noqa
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+DEBUG = False
 
 SECRET_KEY = 'secret'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': ''}}
+    }
+}
 
-INSTALLED_PLUGINS += (
+INSTALLED_PLUGINS += (  # noqa
     'openslides_protocol',)
 
-INSTALLED_APPS += INSTALLED_PLUGINS
+INSTALLED_APPS += INSTALLED_PLUGINS  # noqa
 
 TIME_ZONE = 'Europe/Berlin'
 
-MEDIA_ROOT = ''
-
-# Use RAM storage
-HAYSTACK_CONNECTIONS['default']['STORAGE'] = 'ram'
-
-TEMPLATE_DIRS = (
-    filesystem2unicode(os.path.join(SITE_ROOT, 'templates')),)
-
-STATICFILES_DIRS = (
-    filesystem2unicode(os.path.join(SITE_ROOT, 'static')),)
-
 # Use a faster passwort hasher
-PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.MD5PasswordHasher',)
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+]
+
+# Use the dummy cache that does not cache anything
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
+    },
+    'locmem': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+    }
+}

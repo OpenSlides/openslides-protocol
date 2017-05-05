@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: openslides_protocol/item-protocol-form.html:16
+#: openslides_protocol/protocol-list.html:45
+msgid "Are you sure to delete this protocol?"
+msgstr ""
+
+#: openslides_protocol/item-protocol-form.html:13
+msgid "Cancel"
+msgstr ""
+
+#: openslides_protocol/agenda-hook.html:5
+#: openslides_protocol/item-protocol-form.html:2
+msgid "Create protocol"
+msgstr ""
+
+#: openslides_protocol/item-protocol-form.html:18
+#: openslides_protocol/protocol-list.html:45
+msgid "Delete"
+msgstr ""
+
+#: openslides_protocol/protocol-list.html:42
+msgid "Edit"
+msgstr ""
+
+#: openslides_protocol/agenda-hook.html:4
+#: openslides_protocol/item-protocol-form.html:1
+msgid "Edit protocol"
+msgstr ""
+
+#: openslides_protocol/protocol-list.html:25
+msgid "Item"
+msgstr ""
+
+#: openslides_protocol/protocol-list.html:17
+#: openslides_protocol/protocol-list.html:26
+#: openslides_protocol/site.js:14
+#: openslides_protocol/site.js:26
+#: openslides_protocol/site.js:82
+msgid "Protocol"
+msgstr ""
+
+#: openslides_protocol/item-protocol-form.html:10
+msgid "Save"
+msgstr ""
+
+#: openslides_protocol/protocol-list.html:14
+msgid "Select all"
+msgstr ""

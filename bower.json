@@ -1,0 +1,7 @@
+{
+  "name": "openslides-protocol",
+  "private": true,
+  "dependencies": {
+    "angular-gettext": "~2.3.6"
+  }
+}
