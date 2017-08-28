@@ -6,19 +6,24 @@
 
 # Python compiled files
 *.pyc
+__pycache__/
 
-# Development user data (settings, database, media, search index)
-settings.py
-database.sqlite
-media/
-whoosh_index/
+# Local user data (settings, database, media, search index, static files)
+personal_data/*
+
+# Javascript tools and libraries
+node_modules/*
+bower_components/*
 
 # Package building
 *.egg-info
-build/
-dist/
+build/*
+dist/*
 
 # Temporary files
 *.swp
 *~
 .DS_Store
+
+# Staticfiles
+openslides_protocol/static/*
