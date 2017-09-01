@@ -38,6 +38,12 @@ gulp.task('translations', function () {
 // Gulp default task. Runs all other tasks before.
 gulp.task('default', ['translations', 'templates'], function () {});
 
+// Watches changes in JavaScript and templates.
+ gulp.task('watch', ['templates'], function   () {
+    gulp.watch([
+        path.join('**', 'static', 'templates', '**', '*.html')
+    ], ['templates']);
+ });
 
 /**
  * Extra tasks that have to be called manually. Useful for development.

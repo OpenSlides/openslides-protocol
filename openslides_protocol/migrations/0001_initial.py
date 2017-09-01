@@ -3,6 +3,9 @@
 from __future__ import unicode_literals
 
 import django.db.models.deletion
+import jsonfield.fields
+import openslides.utils.models
+from django.conf import settings
 from django.db import migrations, models
 
 
@@ -12,18 +15,38 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('agenda', '0002_item_duration'),
+        ('contenttypes', '0002_remove_content_type_name'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ItemProtocol',
+            name='Protocol',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('protocol', models.TextField(blank=True)),
-                ('item', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='agenda.Item')),
+                ('protocol', jsonfield.fields.JSONField()),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
+                'default_permissions': (),
+            },
+            bases=(openslides.utils.models.RESTModelMixin, models.Model),
+        ),
+        migrations.CreateModel(
+            name='ObjectProtocol',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('object_id', models.PositiveIntegerField(blank=True, null=True)),
+                ('protocol', models.TextField(blank=True)),
+                ('content_type', models.ForeignKey(
+                    blank=True,
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    to='contenttypes.ContentType')),
+            ],
+            options={
+                'default_permissions': (),
                 'permissions': (('can_write_protocol', 'Can write protocol'),),
             },
+            bases=(openslides.utils.models.RESTModelMixin, models.Model),
         ),
     ]

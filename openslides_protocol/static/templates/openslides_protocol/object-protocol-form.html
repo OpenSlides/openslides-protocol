@@ -1,5 +1,8 @@
-<h1 ng-if="model.id" translate>Edit protocol</h1>
-<h1 ng-if="!model.id" translate>Create protocol</h1>
+<h1 ng-if="freetext"><translate>Edit freetext</translate></h1>
+<div ng-if="!freetext">
+  <h1 ng-if="model.id"><translate>Edit protocol for</translate> {{ objectVerboseName }}</h1>
+  <h1 ng-if="!model.id"><translate>Create protocol for</translate> {{ objectVerboseName }}</h1>
+</div>
 
 <div uib-alert ng-show="alert.show" ng-class="'alert-' + (alert.type || 'warning')" close="alert={}">
   {{ alert.msg }}

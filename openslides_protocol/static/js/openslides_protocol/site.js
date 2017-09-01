@@ -2,7 +2,10 @@
 
 'use strict';
 
-angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.openslides_protocol'])
+angular.module('OpenSlidesApp.openslides_protocol.site', [
+    'OpenSlidesApp.openslides_protocol',
+    'OpenSlidesApp.openslides_protocol.templatehooks',
+])
 
 .config([
     'mainMenuProvider',
@@ -24,7 +27,7 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
     function (SearchProvider, gettext) {
         SearchProvider.register({
             'verboseName': gettext('Protocol'),
-            'collectionName': 'openslides_protocol/item-protocol',
+            'collectionName': 'openslides_protocol/object-protocol',
             'urlDetailState': 'motions.motion.detail',
             'weight': 300,
         });
@@ -49,31 +52,31 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
     }
 ])
 
-.factory('ItemProtocolDialog', [
+.factory('ObjectProtocolDialog', [
     'gettextCatalog',
-    'Mediafile',
     'Editor',
-    'ItemProtocol',
-    function (gettextCatalog, Mediafile, Editor, ItemProtocol) {
+    'ObjectProtocol',
+    function (gettextCatalog, Editor, ObjectProtocol) {
         return {
-            getDialog: function (item) {
-                var protocol = _.find(ItemProtocol.getAll(), function (protocol) {
-                    return protocol.item.id === item.id;
+            getDialog: function (contentObject, deleteEnabled) {
+                var objectProtocol = _.find(ObjectProtocol.getAll(), function (protocol) {
+                    return protocol.content_object.collection === contentObject.getResourceName() &&
+                        protocol.content_object.id === contentObject.id;
                 });
-                 return {
-                    template: 'static/templates/openslides_protocol/item-protocol-form.html',
-                    controller: protocol ? 'ProtocolEditCtrl' : 'ProtocolCreateCtrl',
+                return {
+                    template: 'static/templates/openslides_protocol/object-protocol-form.html',
+                    controller: !!objectProtocol ? 'ObjectProtocolEditCtrl' : 'ObjectProtocolCreateCtrl',
                     className: 'ngdialog-theme-default wide-form',
                     closeByEscape: false,
                     closeByDocument: false,
                     resolve: {
-                        item: function () {return item; },
-                        protocol: function () {return protocol; },
+                        contentObject: function () {return contentObject; },
+                        objectProtocol: function () {return objectProtocol; },
+                        deleteEnabled: function () {return deleteEnabled && !!objectProtocol; },
                     },
                 };
             },
             getFormFields: function () {
-                var images = Mediafile.getAllImages();
                 return [
                     {
                         key: 'protocol',
@@ -82,7 +85,50 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
                             label: gettextCatalog.getString('Protocol'),
                         },
                         data: {
-                            ckeditorOptions: Editor.getOptions(images)
+                            ckeditorOptions: Editor.getOptions(),
+                        }
+                    },
+                ];
+            },
+        };
+    }
+])
+
+.factory('FreeTextDialog', [
+    'gettextCatalog',
+    'Editor',
+    function (gettextCatalog, Editor) {
+        return {
+            getDialog: function (entry, protocol) {
+                 return {
+                    template: 'static/templates/openslides_protocol/object-protocol-form.html',
+                    controller: 'FreeTextEditCtrl',
+                    className: 'ngdialog-theme-default wide-form',
+                    closeByEscape: false,
+                    closeByDocument: false,
+                    resolve: {
+                        entry: function () {return entry; },
+                        protocol: function () {return protocol; },
+                    },
+                };
+            },
+            getFormFields: function () {
+                return [
+                    {
+                        key: 'title',
+                        type: 'input',
+                        templateOptions: {
+                            label: gettextCatalog.getString('Title'),
+                        },
+                    },
+                    {
+                        key: 'text',
+                        type: 'editor',
+                        templateOptions: {
+                            label: gettextCatalog.getString('Text'),
+                        },
+                        data: {
+                            ckeditorOptions: Editor.getOptions()
                         }
                     },
                 ];
@@ -93,33 +139,119 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
 
 .controller('ProtocolListCtrl', [
     '$scope',
-    'ItemProtocol',
+    '$filter',
+    'gettextCatalog',
+    'DS',
+    'ObjectProtocol',
     'Agenda',
     'AgendaTree',
     'Motion',
     'Assignment',
     'AssignmentPhases',
     'User',
-    function ($scope, ItemProtocol, Agenda, AgendaTree, Motion, Assignment, AssignmentPhases, User) {
+    'Protocol',
+    'ProtocolManager',
+    'ngDialog',
+    'ObjectProtocolDialog',
+    'FreeTextDialog',
+    function ($scope, $filter, gettextCatalog, DS, ObjectProtocol, Agenda, AgendaTree,
+        Motion, Assignment, AssignmentPhases, User, Protocol, ProtocolManager, ngDialog,
+        ObjectProtocolDialog, FreeTextDialog) {
         $scope.$watch(function () {
             return Agenda.lastModified();
-         }, function () {
-            // Filter out items that doesn't have the list_item_title. This happens, if the
-            // item is a hidden item but provides the list of speakers, but should not be
-            // visible in the list view.
-            var allowedItems = _.filter(Agenda.getAll(), function (item) {
-                return item.list_view_title;
+        }, function () {
+            $scope.items = _.map(AgendaTree.getFlatTree(Agenda.getAll()), function (item) {
+                return item.getContentObject();
             });
-            $scope.items = AgendaTree.getFlatTree(allowedItems);
         });
-        ItemProtocol.bindAll({}, $scope, 'itemProtocols');
+        ObjectProtocol.bindAll({}, $scope, 'objectProtocols');
         Motion.bindAll({}, $scope, 'motions');
         Assignment.bindAll({}, $scope, 'assignments');
         User.bindAll({}, $scope, 'users');
         $scope.phases = AssignmentPhases;
 
-        $scope.selectText = function () {
-            var elementId = $scope.activeTab + 'SelectContainer';
+        ProtocolManager.getOrCreateProtocol().then(function (protocol) {
+            $scope.protocol = protocol;
+            $scope.$watch(function () {
+                return Protocol.lastModified();
+            }, function () {
+                $scope.protocol = ProtocolManager.getProtocol();
+            });
+        });
+
+        $scope.addFreeText = function () {
+            $scope.protocol.add({
+                title: gettextCatalog.getString('Free text'),
+                text: gettextCatalog.getString('New free text'),
+            }, 'text');
+        };
+        $scope.treeOptions = {
+            dropped: function (event) {
+                Protocol.save($scope.protocol);
+            },
+        };
+        $scope.edit = function (entry) {
+            if (entry.type === 'text') {
+                ngDialog.open(FreeTextDialog.getDialog(entry, $scope.protocol));
+            } else {
+                ngDialog.open(ObjectProtocolDialog.getDialog($scope.getObject(entry)));
+            }
+        };
+
+        // Searching
+        $scope.getItemProtocolQueryString = function (item) {
+            return [$scope.getProtocol(item.id), item.getListViewTitle()].join(' ');
+        };
+        $scope.getMotionQueryString = function (motion) {
+            return [
+                motion.getTitle(),
+                motion.getText(),
+                motion.identifier,
+                _.map(motion.submitters, function (submitter) {
+                    return submitter.get_short_name();
+                }).join(' '),
+                _.map(motion.tags, function (tag) {
+                    return tag.name;
+                }).join(' '),
+                motion.category ? motion.category.name : '',
+                motion.origin
+            ].join(' ');
+        };
+        $scope.getAssignmentQueryString = function (assignment) {
+            return [
+                assignment.title,
+                _.map(assignment.assignment_related_users, function (candidate) {
+                    return candidate.get_short_name();
+                }).join(' '),
+                _.map(assignment.tags, function (tag) {
+                    return tag.name;
+                }).join(' '),
+                gettextCatalog.getString($scope.phases[assignment.phase].display_name)
+            ].join(' ');
+        };
+
+        // Preview
+        $scope.getObject = function (obj) {
+            return DS.get(obj.type, obj.id);
+        };
+        $scope.hasProtocol = function (obj) {
+            return _.some(ObjectProtocol.getAll(), function (protocol) {
+                    return protocol.content_object.collection === obj.type &&
+                        protocol.content_object.id === obj.id;
+            });
+        };
+        $scope.getProtocol = function (obj) {
+            return _.find(ObjectProtocol.getAll(), function (protocol) {
+                    return protocol.content_object.collection === obj.type &&
+                        protocol.content_object.id === obj.id;
+            }).protocol;
+        };
+        $scope.getTypeVerboseName = function (obj) {
+            return DS.definitions[$scope.getObject(obj).getResourceName()].verboseName;
+        };
+
+        $scope.selectProtocol = function () {
+            var elementId = 'selectContainer';
             var element = document.getElementById(elementId);
             var range;
             if (document.body.createTextRange) {
@@ -134,34 +266,31 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
                 selection.addRange(range);
             }
         };
-        $scope.hasProtocol = function (item) {
-            return _.some(ItemProtocol.getAll(), function (protocol) {
-                return protocol.item.id === item.id;
-            });
-        };
-        $scope.getProtocol = function (item) {
-            return _.find(ItemProtocol.getAll(), function (protocol) {
-                return protocol.item.id === item.id;
-            });
-        };
-        $scope.itemProtocolSorter = function (itemProtocol) {
-            return itemProtocol.item.weight;
-        };
     }
 ])
 
-.controller('ProtocolCreateCtrl', [
+.controller('ObjectProtocolCreateCtrl', [
     '$scope',
-    'ItemProtocol',
-    'ItemProtocolDialog',
-    'item',
+    'gettextCatalog',
+    'ObjectProtocol',
+    'ObjectProtocolDialog',
+    'contentObject',
+    'deleteEnabled',
     'ErrorMessage',
-    function ($scope, ItemProtocol, ItemProtocolDialog, item, ErrorMessage) {
-        $scope.model = {item_id: item.id};
-        $scope.formFields = ItemProtocolDialog.getFormFields();
+    'DS',
+    function ($scope, gettextCatalog, ObjectProtocol, ObjectProtocolDialog, contentObject, deleteEnabled, ErrorMessage, DS) {
+        $scope.model = {
+            content_object: {
+                collection: contentObject.getResourceName(),
+                id: contentObject.id,
+            },
+        };
+        $scope.objectVerboseName = contentObject.agenda_item.getTitle();
+        $scope.formFields = ObjectProtocolDialog.getFormFields();
+        $scope.deleteEnabled = deleteEnabled;
 
         $scope.save = function (model) {
-            ItemProtocol.create(model).then(function (success) {
+            ObjectProtocol.create(model).then(function (success) {
                 $scope.closeThisDialog();
             }, function (error) {
                 $scope.alert = ErrorMessage.forAlert(error);
@@ -170,29 +299,34 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
     }
 ])
 
-.controller('ProtocolEditCtrl', [
+.controller('ObjectProtocolEditCtrl', [
     '$scope',
-    'ItemProtocol',
-    'ItemProtocolDialog',
-    'item',
-    'protocol',
+    'gettextCatalog',
+    'ObjectProtocol',
+    'ObjectProtocolDialog',
+    'contentObject',
+    'objectProtocol',
+    'deleteEnabled',
     'ErrorMessage',
-    function ($scope, ItemProtocol, ItemProtocolDialog, item, protocol, ErrorMessage) {
-        $scope.model = angular.copy(protocol);
-        $scope.formFields = ItemProtocolDialog.getFormFields();
-        $scope.deleteEnabled = true;
+    'DS',
+    function ($scope, gettextCatalog, ObjectProtocol, ObjectProtocolDialog, contentObject,
+        objectProtocol, deleteEnabled, ErrorMessage, DS) {
+        $scope.model = angular.copy(objectProtocol);
+        $scope.objectVerboseName = contentObject.agenda_item.getTitle();
+        $scope.formFields = ObjectProtocolDialog.getFormFields();
+        $scope.deleteEnabled = deleteEnabled;
 
         $scope.save = function (model) {
-            ItemProtocol.inject(model);
-            ItemProtocol.save(model).then(function (success) {
+            ObjectProtocol.inject(model);
+            ObjectProtocol.save(model).then(function (success) {
                 $scope.closeThisDialog();
             }, function (error) {
-                ItemProtocol.refresh(model);
+                ObjectProtocol.refresh(model);
                 $scope.alert = ErrorMessage.forAlert(error);
             });
         };
         $scope.delete = function (model) {
-            ItemProtocol.destroy(model).then(function (success) {
+            ObjectProtocol.destroy(model).then(function (success) {
                 $scope.closeThisDialog();
             }, function (error) {
                 $scope.alert = ErrorMessage.forAlert(error);
@@ -201,33 +335,57 @@ angular.module('OpenSlidesApp.openslides_protocol.site', ['OpenSlidesApp.opensli
     }
 ])
 
-.run([
-    'templateHooks',
-    'ngDialog',
-    'ItemProtocolDialog',
-    'ItemProtocol',
-    function (templateHooks, ngDialog, ItemProtocolDialog, ItemProtocol) {
-        templateHooks.registerHook({
-            Id: 'agendaListAdditionalContentColumn',
-            templateUrl: 'static/templates/openslides_protocol/agenda-hook.html',
-            scope: {
-                openProtocolDialog: function (item) {
-                    console.log("test");
-                    ngDialog.open(ItemProtocolDialog.getDialog(item));
-                },
-                hasProtocol: function (item) {
-                    return _.some(ItemProtocol.getAll(), function (protocol) {
-                        return protocol.item.id === item.id;
-                    });
-                },
-                getPlainProtocolText: function (item) {
-                    var protocol = _.find(ItemProtocol.getAll(), function (protocol) {
-                        return protocol.item.id === item.id;
-                    });
-                    return protocol ? $(protocol.protocol).text() : '';
-                },
-            },
-        });
+.controller('FreeTextEditCtrl', [
+    '$scope',
+    'FreeTextDialog',
+    'Protocol',
+    'protocol',
+    'entry',
+    'ErrorMessage',
+    function ($scope, FreeTextDialog, Protocol, protocol, entry, ErrorMessage) {
+        $scope.model = angular.copy(entry);
+        $scope.formFields = FreeTextDialog.getFormFields();
+        $scope.freetext = true;
+
+        $scope.save = function (model) {
+            var index = _.findIndex(protocol.protocol, function (protocolEntry) {
+                return model.id === protocolEntry.id && model.type === protocolEntry.type;
+            });
+            protocol.protocol[index] = model;
+
+            Protocol.inject(protocol);
+            Protocol.save(protocol).then(function (success) {
+                $scope.closeThisDialog();
+            }, function (error) {
+                Protocol.refresh(protocol);
+                $scope.alert = ErrorMessage.forAlert(error);
+            });
+        };
+    }
+])
+
+.filter('notUsed', [
+    function () {
+        return function (objs, protocol) {
+            if (protocol) {
+                return _.filter(objs, function (obj) {
+                    return !protocol.used(obj);
+                });
+            }
+        };
+    }
+])
+
+.filter('plaintextLimit', [
+    function () {
+        return function (text, limit) {
+            text = '<p>' + text + '</p>';
+            text = $(text).text().replace('\n', '');
+            if (text.length > limit) {
+                text = text.substring(0, limit) + '...';
+            }
+            return text;
+        };
     }
 ]);
 

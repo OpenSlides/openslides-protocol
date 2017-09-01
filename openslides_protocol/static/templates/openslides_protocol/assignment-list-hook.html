@@ -1,0 +1,6 @@
+<div ng-style="{'visibility': (assignment.hover || hasProtocol(assignment)) ? 'visible' : 'hidden'}" os-perms="openslides_protocol.can_write_protocol"
+  ng-click="openProtocolDialog(assignment)" class="pointer">
+  <i class="fa fa-pencil" title="{{ 'Protocol' | translate }}"></i>
+  <span ng-if="hasProtocol(assignment)">{{ getPlainProtocolText(assignment) | limitTo: 30 }}{{ (getPlainProtocolText(assignment).length > 30) ? '...' : '' }}</span>
+  <span ng-if="!hasProtocol(assignment)"><em><translate>Create protocol</translate>...</em></span>
+</div>

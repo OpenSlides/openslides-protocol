@@ -15,6 +15,7 @@ class ProtocolAppConfig(AppConfig):
     js_files = [
         'static/js/openslides_protocol/base.js',
         'static/js/openslides_protocol/site.js',
+        'static/js/openslides_protocol/templatehooks.js',
         'static/js/openslides_protocol/templates.js',  # This file has a different basefolder!
     ]
 
@@ -42,7 +43,7 @@ class ProtocolAppConfig(AppConfig):
         from openslides.core.signals import post_permission_creation
         from openslides.utils.rest_api import router
         from .signals import add_permissions_to_builtin_groups
-        from .views import ItemProtocolViewSet
+        from .views import ObjectProtocolViewSet, ProtocolViewSet
 
         # Connect signals.
         post_permission_creation.connect(
@@ -51,7 +52,9 @@ class ProtocolAppConfig(AppConfig):
         )
 
         # Register viewsets.
-        router.register(self.get_model('ItemProtocol').get_collection_string(), ItemProtocolViewSet)
+        router.register(self.get_model('ObjectProtocol').get_collection_string(), ObjectProtocolViewSet)
+        router.register(self.get_model('Protocol').get_collection_string(), ProtocolViewSet)
 
     def get_startup_elements(self):
-        yield Collection(self.get_model('ItemProtocol').get_collection_string())
+        yield Collection(self.get_model('ObjectProtocol').get_collection_string())
+        yield Collection(self.get_model('Protocol').get_collection_string())
