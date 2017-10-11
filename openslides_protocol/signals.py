@@ -16,6 +16,6 @@ def add_permissions_to_builtin_groups(sender, **kwargs):
         perm = Permission.objects.get(
             content_type=ContentType.objects.get(
                 app_label='openslides_protocol',
-                model='itemprotocol'),
+                model='objectprotocol'),
             codename='can_write_protocol')
         group_staff.permissions.add(perm)

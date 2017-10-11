@@ -1,0 +1,15 @@
+<div class="details" ng-if="hasProtocol(topic)">
+  <div class="row">
+     <div class="motion-toolbar">
+       <div class="pull-right inline-editing-activator">
+         <button ng-click="openProtocolDialog(topic)" class="btn btn-sm btn-default">
+           <i class="fa fa-pencil"></i>
+         </button>
+       </div>
+       <h3 class="toolbar-left" translate>Protocol</h3>
+     </div>
+     <div class="col-sm-12">
+       <div ng-bind-html="getProtocol(topic) | trusted"></div>
+     </div>
+   </div>
+</div>

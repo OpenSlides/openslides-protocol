@@ -4,6 +4,7 @@
 
 angular.module('OpenSlidesApp.openslides_protocol', [
     'OpenSlidesApp.core.site',
+    'OpenSlidesApp.openslides_protocol',
     'OpenSlidesApp.openslides_protocol.templates',
 ])
 
@@ -18,26 +19,142 @@ angular.module('OpenSlidesApp.openslides_protocol', [
     }
 ])
 
-.factory('ItemProtocol', [
+.factory('ObjectProtocol', [
     'DS',
     'gettext',
     'operator',
-    function (DS, gettext, operator) {
-        var name = 'openslides_protocol/item-protocol';
+    'CamelCase',
+    'EditForm',
+    function (DS, gettext, operator, CamelCase, EditForm) {
+        var name = 'openslides_protocol/object-protocol';
         return DS.defineResource({
             name: name,
-            relations: {
-                belongsTo: {
-                    'agenda/item': {
-                        localField: 'item',
-                        localKey: 'item_id',
-                    }
-                }
+            methods: {
+                getResourceName: function () {
+                    return name;
+                },
+                getContentObject: function () {
+                    return DS.get(this.content_object.collection, this.content_object.id);
+                },
+                getContentObjectDetailState: function () {
+                    return CamelCase(this.content_object.collection).replace('/', '.') +
+                        '.detail({id: ' + this.content_object.id + '})';
+                },
+                getContentObjectForm: function () {
+                    return EditForm.fromCollectionString(this.content_object.collection);
+                },
+                getContentResource: function () {
+                    return DS.definitions[this.content_object.collection];
+                },
             },
         });
     }
 ])
 
-.run(['ItemProtocol', function (ItemProtocol) {}]);
+.factory('Protocol', [
+    'DS',
+    'gettext',
+    'operator',
+    'ObjectProtocol',
+    function (DS, gettext, operator, ObjectProtocol) {
+        /*var getProtocol = function (item) {
+            return _.find(ItemProtocol.getAll(), function (protocol) {
+                return protocol.item.id === item.id;
+            }).protocol;
+        };*/
+        var getNextIdForText = function (protocol) {
+            var highestIdFound = -1;
+            _.forEach(protocol, function (entry) {
+                if (entry.type === 'text' && entry.id > highestIdFound) {
+                    highestIdFound = entry.id;
+                }
+            });
+            return highestIdFound+1;
+        };
+
+        var name = 'openslides_protocol/protocol';
+        return DS.defineResource({
+            name: name,
+            relations: {
+                belongsTo: {
+                    'users/user': {
+                        localField: 'user',
+                        localKey: 'user_id',
+                    }
+                }
+            },
+            methods: {
+                add: function (obj, type) {
+                    if (!type) {
+                        type = obj.getResourceName();
+                    }
+                    
+                    var entry = {
+                        type: type,
+                        id: obj.id || undefined,
+                    };
+                    if (type === 'text') {
+                        entry.title = obj.title;
+                        entry.text = obj.text;
+                        entry.id = getNextIdForText(this.protocol);
+                    }
+                    if (typeof entry.id === 'undefined') {
+                        throw "The object has to have an id (except type 'text').";
+                    }
+                    if (entry.id) {
+                        _.forEach(this.protocol, function(protocolEntry) {
+                            if (entry.id === protocolEntry.id && entry.type === protocolEntry.type) {
+                                throw "This entry (" + entry.type + ", id: " + entry.id +
+                                    ") is already in the protocol.";
+                            }
+                        });
+                    }
+                    this.protocol.push(entry);
+                    DS.save(name, this.id);
+                },
+                remove: function (obj) {
+                    if ((typeof obj.id === 'undefined') || !obj.type) {
+                        throw "An id and type have to be given!";
+                    }
+                    this.protocol = _.filter(this.protocol, function (entry) {
+                        return (obj.id !== entry.id || obj.type !== entry.type);
+                    });
+                    DS.save(name, this.id);
+                },
+                used: function (obj) {
+                    var resourceName = obj.getResourceName();
+                    return _.some(this.protocol, function (entry) {
+                        return (obj.id === entry.id && resourceName === entry.type);
+                    });
+                },
+            },
+        });
+    }
+])
+
+.factory('ProtocolManager', [
+    'Protocol',
+    function (Protocol) {
+        return {
+            getOrCreateProtocol: function () {
+                return Protocol.findAll().then(function (protocols) {
+                    if (protocols.length) {
+                        return protocols[0];
+                    } else {
+                        return Protocol.create({protocol: []});
+                    }
+                });
+            },
+            getProtocol: function () {
+                var protocols = Protocol.getAll();
+                if (protocols.length) {
+                    return protocols[0];
+                }
+            },
+        };
+    }
+])
+
+.run(['ObjectProtocol', 'Protocol', function (ObjectProtocol, Protocol) {}]);
 
 }());

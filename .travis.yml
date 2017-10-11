@@ -4,6 +4,7 @@ cache:
   pip: true
   yarn: true
 python:
+  - "3.4"
   - "3.5"
   - "3.6"
 env:
@@ -19,6 +20,6 @@ install:
   - yarn
 script:
   - node_modules/.bin/gulp jshint
-  - isort --check-only --recursive openslides_protocol tests
+  - if [ "`python --version`" \> "Python 3.5.0" ]; then isort --check-only --recursive openslides_protocol tests; fi
   - flake8 openslides_protocol tests
   - PYTHONPATH=./ DJANGO_SETTINGS_MODULE='tests.settings' openslides test

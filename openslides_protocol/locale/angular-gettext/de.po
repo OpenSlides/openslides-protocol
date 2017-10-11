@@ -1,88 +1,93 @@
+# Translators:
+# Finn Stutzenstein <finn.stutzenstein@hotmail.de>, 2017
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Last-Translator: Finn Stutzenstein <finn.stutzenstein@hotmail.de>, 2017\n"
+"Language-Team: German (https://www.transifex.com/openslides/teams/14270/de/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Project-Id-Version: \n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: openslides_protocol/protocol-list.html:66
 msgid "Agenda"
-msgstr ""
+msgstr "Agenda"
 
 #: openslides_protocol/object-protocol-form.html:19
 msgid "Are you sure to delete this protocol?"
-msgstr ""
+msgstr "Sind Sie sicher dieses Protokoll zu löschen?"
 
 #: openslides_protocol/protocol-list.html:271
 msgid "Ballots"
-msgstr ""
+msgstr "Wahlgang"
 
 #: openslides_protocol/object-protocol-form.html:16
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: openslides_protocol/protocol-list.html:59
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #: openslides_protocol/agenda-hook.html:5
 #: openslides_protocol/assignment-list-hook.html:5
 #: openslides_protocol/motion-list-hook.html:5
 msgid "Create protocol"
-msgstr ""
+msgstr "Protokoll erstellen"
 
 #: openslides_protocol/object-protocol-form.html:4
 msgid "Create protocol for"
-msgstr ""
+msgstr "Erstelle Protokoll für"
 
 #: openslides_protocol/object-protocol-form.html:21
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: openslides_protocol/protocol-list.html:267
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: openslides_protocol/object-protocol-form.html:1
 msgid "Edit freetext"
-msgstr ""
+msgstr "Freitext bearbeiten"
 
 #: openslides_protocol/object-protocol-form.html:3
 msgid "Edit protocol for"
-msgstr ""
+msgstr "Bearbeite Protokoll für"
 
 #: openslides_protocol/protocol-list.html:133
 msgid "Elections"
-msgstr ""
+msgstr "Wahlen"
 
 #: openslides_protocol/protocol-list.html:186
 msgid "Empty free text"
-msgstr ""
+msgstr "Leerer Freitext"
 
 #: openslides_protocol/protocol-list.html:170
-#: openslides_protocol/protocol-list.html:182
-#: openslides_protocol/site.js:184
+#: openslides_protocol/protocol-list.html:182 openslides_protocol/site.js:184
 msgid "Free text"
-msgstr ""
+msgstr "Freitext"
 
 #: openslides_protocol/protocol-list.html:234
 msgid "Motion"
-msgstr ""
+msgstr "Antrag"
 
 #: openslides_protocol/protocol-list.html:99
 msgid "Motions"
-msgstr ""
+msgstr "Anträge"
 
 #: openslides_protocol/site.js:185
 msgid "New free text"
-msgstr ""
+msgstr "Neuer Freitext"
 
 #: openslides_protocol/protocol-list.html:259
 msgid "Phase"
-msgstr ""
+msgstr "Phase"
 
 #: openslides_protocol/protocol-list.html:218
 msgid "Preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: openslides_protocol/agenda-hook.html:3
 #: openslides_protocol/assignment-detail-hook.html:9
@@ -92,54 +97,52 @@ msgstr ""
 #: openslides_protocol/protocol-list.html:166
 #: openslides_protocol/protocol-list.html:220
 #: openslides_protocol/protocol-list.html:292
-#: openslides_protocol/protocol-list.html:53
-#: openslides_protocol/site.js:17
-#: openslides_protocol/site.js:29
-#: openslides_protocol/site.js:85
+#: openslides_protocol/protocol-list.html:53 openslides_protocol/site.js:17
+#: openslides_protocol/site.js:29 openslides_protocol/site.js:85
 #: openslides_protocol/topic-detail-hook.html:9
 msgid "Protocol"
-msgstr ""
+msgstr "Protokoll"
 
 #: openslides_protocol/protocol-list.html:251
 msgid "Reason"
-msgstr ""
+msgstr "Begründung"
 
 #: openslides_protocol/object-protocol-form.html:13
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: openslides_protocol/protocol-list.html:109
 #: openslides_protocol/protocol-list.html:143
 #: openslides_protocol/protocol-list.html:76
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 #: openslides_protocol/protocol-list.html:49
 msgid "Select all"
-msgstr ""
+msgstr "Alle auswählen"
 
 #: openslides_protocol/protocol-list.html:236
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 #: openslides_protocol/protocol-list.html:242
 msgid "Submitters"
-msgstr ""
+msgstr "Antragsteller/in"
 
 #: openslides_protocol/site.js:128
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: openslides_protocol/site.js:121
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: openslides_protocol/protocol-list.html:277
 msgid "elected"
-msgstr ""
+msgstr "gewählt"
 
 #: openslides_protocol/protocol-list.html:125
 #: openslides_protocol/protocol-list.html:159
 #: openslides_protocol/protocol-list.html:91
 msgid "empty"
-msgstr ""
+msgstr "leer"

@@ -1,134 +1,299 @@
 <style type="text/css">
-.protocol-hidden > td > span {
-    height: 40px;
-    overflow: hidden;
-    display: inline-grid;
+.protocol .type-container {
+    padding: 0px 10px;
+    margin: 10px 0px;
+}
+.protocol .type-container h2 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.protocol .type-container > div {
+    padding: 10px 10px;
+    border: 1px solid #ddd;
+}
+.protocol .type-container .header {
+    background-color: #eee;
+    padding: 10px;
+    float: right;
+    width: 100%;
+}
+.protocol .type-container .entries {
+    margin-top: 55px;
+}
+.protocol .type-container .empty {
+  color: #9a9898;
+}
+.protocol .type-container button {
+    margin-bottom: 2px;
+}
+.protocol .indent {
+  margin-left: 20px;
+}
+.protocol .buttons-right {
+    float: right;
+    margin-right: 20px;
+}
+.protocol .type-info {
+    color: #999;
+    font-size: 12px;
 }
 </style>
 
 <div class="header">
   <div class="title">
     <div class="submenu">
+      <span ng-if="activeTab == 'preview'">
       <button type="button" os-perms="openslides_protocol.can_write_protocol"
-        class="btn btn-default btn-sm" ng-click="selectText()">
+        class="btn btn-default btn-sm" ng-click="selectProtocol()">
         <i class="fa fa-i-cursor fa-lg"></i>
         <translate>Select all</translate>
       </button>
+      </span>
     </div>
     <h1 translate>Protocol</h1>
   </div>
 </div>
 
-<div class="details">
+<div class="details protocol">
   <uib-tabset active="activeTab">
-    <uib-tab index="'agenda'" heading="{{ 'Agenda' | translate }}">
-      <div id="agendaSelectContainer">
-        <small><h1 translate>All protocols</h1></small>
-        <ul>
-          <li ng-repeat="item in items">
-            <a ng-href="#item{{ item.id }}">
-              {{ item.getListViewTitle() }}
-            </a>
-          </li>
-        </ul>
-        <hr>
-        <div ng-repeat="item in items | filter : type : 1" id="item{{ item.id }}">
-          <h3>
-            {{ item.getListViewTitle() }}
-          </h3>
-          <div ng-if="hasProtocol(item)" ng-bind-html="getProtocol(item).protocol | trusted"></div>
+    <uib-tab index="'create'" heading="{{ 'Create' | translate }}">
+      <div class="container">
+        <div class="col-md-6">
+
+          <div class="type-container">
+            <div>
+              <h2>
+                <translate>Agenda</translate>
+                <small> &mdash; {{ itemsFiltered.length }}/{{ items.length }}</small>
+              </h2>
+            </div>
+            <div class="header">
+              <span class="form-inline text-right pull-right">
+                <span class="form-group">
+                  <span class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" ng-model="itemProtocolFilterString" class="form-control"
+                      placeholder="{{ 'Search' | translate}}">
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div class="entries">
+              <div ng-repeat="item in itemsFiltered = (items
+                | notUsed : protocol : 'itemProtocol'
+                | osFilter : itemProtocolFilterString : getItemProtocolQueryString)">
+                <button type="button" class="btn btn-default btn-sm" ng-click="protocol.add(item)">
+                  <i class="fa fa-plus"></i>
+                  {{ item.agenda_item.getTitle() }}
+                </button>
+              </div>
+              <div ng-if="itemsFiltered.length === 0">
+                <small class="empty">(<translate>empty</translate>)</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="type-container">
+            <div>
+              <h2>
+                <translate>Motions</translate>
+                <small> &mdash; {{ motionsFiltered.length }}/{{ motions.length }}</small>
+              </h2>
+            </div>
+            <div class="header">
+              <span class="form-inline text-right pull-right">
+                <span class="form-group">
+                  <span class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" ng-model="motionFilterString" class="form-control"
+                      placeholder="{{ 'Search' | translate}}">
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div class="entries">
+              <div ng-repeat="motion in motionsFiltered = (motions
+                | orderBy : 'title'
+                | notUsed : protocol : 'motion'
+                | osFilter : motionFilterString : getMotionQueryString)">
+                <button type="button" class="btn btn-default btn-sm" ng-click="protocol.add(motion)">
+                  <i class="fa fa-plus"></i>
+                  {{ motion.getTitle() }}
+                </button>
+              </div>
+              <div ng-if="motionsFiltered.length === 0">
+                <small class="empty">(<translate>empty</translate>)</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="type-container">
+            <div>
+              <h2>
+                <translate>Elections</translate>
+                <small> &mdash; {{ assignmentsFiltered.length }}/{{ assignments.length }}</small>
+              </h2>
+            </div>
+            <div class="header">
+              <span class="form-inline text-right pull-right">
+                <span class="form-group">
+                  <span class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" ng-model="assignmentFilterString" class="form-control"
+                      placeholder="{{ 'Search' | translate}}">
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div class="entries">
+              <div ng-repeat="assignment in assignmentsFiltered = (assignments
+                | orderBy : 'title'
+                | notUsed : protocol : 'assignment'
+                | osFilter : assignmentsFilterString : getAssignmentQueryString)">
+                <button type="button" class="btn btn-default btn-sm" ng-click="protocol.add(assignment)">
+                  <i class="fa fa-plus"></i>
+                  {{ assignment.agenda_item.getTitle() || assingment.title }}
+                </button>
+              </div>
+              <div ng-if="assignmentsFiltered.length === 0">
+                <small class="empty">(<translate>empty</translate>)</small>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </uib-tab>
-    <uib-tab index="'motion'" heading="{{ 'Motions' | translate }}">
-      <div id="motionSelectContainer">
-        <small><h1 translate>Final versions of all motions</h1></small>
-        <ul>
-          <li ng-repeat="motion in motions | orderBy:'name'">
-            <a ng-href="#motion{{ motion.id }}">
-              {{ motion.identifier }} &ndash; {{ motion.getTitle() }}
-            </a>
-          </li>
-        </ul>
-        <hr>
-        <div ng-repeat="motion in motions | orderBy:'name'" id="motion{{ motion.id }}">
-          <h3>{{ motion.identifier }} &ndash; {{ motion.getTitle() }}</h3>
-          <div><strong translate>State</strong>:
-             <span class="label" ng-class="'label-'+motion.state.css_class">
-               {{ motion.getStateName() }}
-             </span>
+        <div class="col-md-6">
+          <h3 translate>Protocol</h3>
+          <div class="spacer-top spacer-bottom">
+            <button type="button" class="btn btn-default btn-sm" ng-click="addFreeText()">
+              <i class="fa fa-plus"></i>
+              <translate>Free text</translate>
+            </button>
           </div>
-          <div><strong translate>Submitters</strong>:
-            <span ng-repeat="submitter in motion.submitters">
-              {{ submitter.get_full_name() }}<span ng-if="!$last">, </span>
-            </span>
-          </div>
-          <div class="spacer-top"><p>{{ config('motions_preamble') | translate }}</p></div>
-          <div ng-bind-html="motion.getTextByMode('agreed') | trusted"
-            class="motion-text motion-text-changed line-numbers-{{ config('motions_default_line_numbering') }}"></div>
-          <h2 translate>Reason</h2>
-          <div ng-bind-html="motion.getReason() | trusted"></div>
-        </div>
-      </div>
-    </uib-tab>
-    <uib-tab index="'assignments'" heading="{{ 'Elections' | translate }}">
-      <div id="assignmentsSelectContainer">
-        <small><h1 translate>Results of all elections</h1></small>
-        <ul>
-          <li ng-repeat="assignment in assignments | orderBy:'title'">
-            <a ng-href="#assignment{{ assignment.id }}">
-              {{ assignment.agenda_item.getTitle() || assingment.title }}
-            </a>
-          </li>
-        </ul>
-        <hr>
-        <div ng-repeat="assignment in assignments | orderBy:'title'" id="assignment{{ assignment.id }}">
-          <h3>
-            {{ assignment.agenda_item.getTitle() || assingment.title }}
-          </h3>
-          <div>
-            <strong translate>Phase</strong>:
-            <span class="label" ng-class="{'label-primary': assignment.phase == 0,
-                                           'label-warning': assignment.phase == 1,
-                                           'label-success': assignment.phase == 2 }">
-              {{ phases[assignment.phase].display_name | translate }}
-            </span>
-          </div>
-          <div ng-if="assignment.description">
-            <strong translate>Description</strong>:
-            {{ assignment.description }}
-          </div>
-          <div ng-if="assignment.polls.length > 0">
-            <strong translate>Ballots</strong>:
-            <ol>
-              <li ng-repeat="poll in assignment.polls | orderBy:'id'" class="spacer-left-lg">
-                <ul>
-                  <li ng-repeat="option in poll.options | orderBy:'weight'">
-                    {{ option.candidate.get_full_name() }}
-                    <span ng-if="option.is_elected">(<translate>elected</translate>)</span>
-                    <span ng-init="votes = option.getVotes()">
-                      <span ng-repeat="vote in votes">
-                        <span ng-if="poll.pollmethod == 'yna' || poll.pollmethod == 'yn'">{{ vote.label }}</span>:
-                        {{ vote.value }} {{ vote.percentStr }}
-                      </span>
-                    </span>
-                  </li>
-                </ul>
+
+          <div ui-tree="treeOptions" data-empty-placeholder-enabled="false">
+            <ol ui-tree-nodes="" ng-model="protocol.protocol">
+              <li ui-tree-node ng-repeat="entry in protocol.protocol">
+                <i ui-tree-handle="" class="fa fa-arrows-v spacer-right"></i>
+
+                <span ng-if="entry.type === 'text'">
+                  <span ng-if="entry.title">
+                    {{ (entry.title + ': ' + entry.text) | plaintextLimit : 50 }}
+                    <span class="type-info">(<translate>Free text</translate>)</span>
+                  </span>
+                  <span ng-if="!entry.title">
+                    {{ entry.text | plaintextLimit : 40 }}
+                    <span class="type-info">(<translate>Empty free text</translate>)</span>
+                  </span>
+                </span>
+                <span ng-if="entry.type === 'topics/topic'">
+                  {{ getObject(entry).agenda_item.getListViewTitle() | plaintextLimit : 50 }}
+                </span>
+                <span ng-if="entry.type === 'motions/motion'">
+                    {{ getObject(entry).identifier ? getObject(entry).identifier + ' -' : '' }}
+                    {{ getObject(entry).getTitle() | plaintextLimit : 45 }}
+                </span>
+                <span ng-if="entry.type === 'assignments/assignment'">
+                  {{ getObject(entry).title | plaintextLimit : 50 }}
+                </span>
+                <span ng-if="entry.type !== 'text'">
+                  <span class="type-info">({{ getTypeVerboseName(entry) | translate }})</span>
+                </span>
+
+                <span class="buttons-right">
+                  <button type="button" class="btn btn-default btn-sm" ng-click="edit(entry)">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm" ng-click="protocol.remove(entry)">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </span>
               </li>
             </ol>
           </div>
+
         </div>
       </div>
     </uib-tab>
-    <uib-tab index="'users'" heading="{{ 'Participants' | translate }}">
-      <div id="usersSelectContainer">
-        <small><h1 translate>All participants</h1></small>
-        <ul>
-          <li ng-repeat="user in users">
-            {{ user.get_full_name() }}
-            <span ng-if="user.is_present">(<translate>Present</translate>)</span>
-          </li>
-        </ul>
+    <uib-tab index="'preview'" heading="{{ 'Preview' | translate }}">
+      <div id="selectContainer">
+        <h1 translate>Protocol</h1>
+        <div ng-repeat="entry in protocol.protocol">
+
+          <div ng-if="entry.type === 'text'">
+            <h3>{{ entry.title }}</h3>
+            <p class="indent" ng-bind-html="entry.text | trusted"></p>
+          </div>
+
+          <div ng-if="entry.type === 'topics/topic'">
+            <h3>{{ getObject(entry).agenda_item.getListViewTitle() }}</h3>
+            <p class="indent" ng-bind-html="getObject(entry).text | trusted"></p>
+          </div>
+
+          <div ng-if="entry.type === 'motions/motion'">
+            <h3><translate>Motion</translate> {{ getObject(entry).identifier ? getObject(entry).identifier + ' - ' : '' }}{{ getObject(entry).getTitle() }}</h3>
+            <div class="indent">
+              <strong translate>State</strong>:
+               <span class="label" ng-class="'label-' + getObject(entry).state.css_class">
+                 {{ getObject(entry).getStateName() }}
+               </span>
+            </div>
+            <div class="indent">
+              <strong translate>Submitters</strong>:
+              <span ng-repeat="submitter in getObject(entry).submitters">
+                {{ submitter.get_full_name() }}<span ng-if="!$last">, </span>
+              </span>
+            </div>
+            <div class="spacer-top indent"><p>{{ config('motions_preamble') | translate }}</p></div>
+            <div ng-bind-html="getObject(entry).getTextByMode('agreed') | trusted"
+              class="indent motion-text motion-text-changed line-numbers-{{ config('motions_default_line_numbering') }}"></div>
+            <div class="indent" ng-if="getObject(entry).getReason()">
+              <h2 translate>Reason</h2>
+              <div ng-bind-html="getObject(entry).getReason() | trusted"></div>
+            </div>
+          </div>
+
+          <div ng-if="entry.type === 'assignments/assignment'">
+            <h3>{{ getObject(entry).title }}</h3>
+            <div>
+              <strong translate>Phase</strong>:
+              <span class="label" ng-class="{'label-primary': getObject(entry).phase == 0,
+                                             'label-warning': getObject(entry).phase == 1,
+                                             'label-success': getObejct(entry).phase == 2 }">
+                {{ phases[getObject(entry).phase].display_name | translate }}
+              </span>
+            </div>
+            <div ng-if="getObject(entry).description">
+              <strong translate>Description</strong>:
+              {{ getObject(entry).description }}
+            </div>
+            <div ng-if="getObject(entry).polls.length > 0">
+              <strong translate>Ballots</strong>:
+              <ol>
+                <li ng-repeat="poll in getObject(entry).polls | orderBy:'id'" class="spacer-left-lg">
+                  <ul>
+                    <li ng-repeat="option in poll.options | orderBy:'weight'">
+                      {{ option.candidate.get_full_name() }}
+                      <span ng-if="option.is_elected">(<translate>elected</translate>)</span>
+                      <span ng-init="votes = option.getVotes()">
+                        <span ng-repeat="vote in votes">
+                          <span ng-if="poll.pollmethod == 'yna' || poll.pollmethod == 'yn'">{{ vote.label }}</span>:
+                          {{ vote.value }} {{ vote.percentStr }}
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="indent" ng-if="hasProtocol(entry)">
+            <h2 translate>Protocol</h2>
+            <div ng-bind-html="getProtocol(entry) | trusted"></div>
+          </div>
+
+        </div>
       </div>
     </uib-tab>
   </uib-tabset>
