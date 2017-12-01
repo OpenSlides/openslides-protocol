@@ -3,7 +3,13 @@ import os
 from django.apps import AppConfig
 from openslides.utils.collection import Collection
 
-from . import __description__, __verbose_name__, __version__
+from . import (
+    __description__,
+    __license__,
+    __url__,
+    __verbose_name__,
+    __version__,
+)
 
 
 class ProtocolAppConfig(AppConfig):
@@ -11,6 +17,8 @@ class ProtocolAppConfig(AppConfig):
     verbose_name = __verbose_name__
     description = __description__
     version = __version__
+    license = __license__
+    url = __url__
     angular_site_module = True
     js_files = [
         'static/js/openslides_protocol/base.js',

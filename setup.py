@@ -21,7 +21,7 @@ setup(
     long_description=long_description,
     author='Authors of %s, see AUTHORS' % module.__verbose_name__,
     author_email='support@openslides.org',
-    url='http://openslides.org/',
+    url=module.__url__,
     keywords='OpenSlides',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -34,7 +34,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6'],
-    license='MIT',
+    license=module.__license__,
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     install_requires=install_requires,
