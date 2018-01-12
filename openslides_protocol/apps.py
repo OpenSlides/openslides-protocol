@@ -35,10 +35,6 @@ class ProtocolAppConfig(AppConfig):
             settings.STATICFILES_DIRS.append(os.path.join(base_path, 'static'))
 
     def ready(self):
-        # Load projector elements.
-        # Do this by just importing all from these files.
-        from . import projector  # noqa
-
         # Import all required stuff.
         from openslides.core.signals import post_permission_creation
         from openslides.utils.rest_api import router
