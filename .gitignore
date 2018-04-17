@@ -25,5 +25,9 @@ dist/*
 *~
 .DS_Store
 
-# Staticfiles
-static/*
+# Generated template file
+openslides_protocol/static/js/openslides_protocol/templates.js
+
+# Generated i18n files
+openslides_protocol/static/i18n
+openslides_protocol/locale/en/LC_MESSAGES/django.mo
