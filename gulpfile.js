@@ -24,7 +24,7 @@ gulp.task('templates', function () {
                 return pathList.join(path.sep);
             },
         }))
-        .pipe(gulp.dest(path.join('static', 'js', 'openslides_protocol')));
+        .pipe(gulp.dest(path.join('openslides_protocol', 'static', 'js', 'openslides_protocol')));
 });
 // Compiles translation files (*.po) to *.json and saves them in the directory 'i18n'.
 gulp.task('translations', function () {
@@ -32,7 +32,7 @@ gulp.task('translations', function () {
         .pipe(gettext.compile({
             format: 'json'
         }))
-        .pipe(gulp.dest(path.join('static', 'i18n', 'openslides_protocol')));
+        .pipe(gulp.dest(path.join('openslides_protocol', 'static', 'i18n', 'openslides_protocol')));
 });
 
 // Gulp default task. Runs all other tasks before.
