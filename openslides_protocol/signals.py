@@ -9,6 +9,7 @@ def add_permissions_to_builtin_groups(sender, **kwargs):
     """
     try:
         group_staff = Group.objects.get(name='Staff')
+        group_admin = Group.objects.get(name='Admin')
     except Group.DoesNotExist:
         # Do not add the protocol permission
         pass
@@ -19,3 +20,4 @@ def add_permissions_to_builtin_groups(sender, **kwargs):
                 model='objectprotocol'),
             codename='can_write_protocol')
         group_staff.permissions.add(perm)
+        group_admin.permissions.add(perm)

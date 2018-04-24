@@ -2,7 +2,6 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from jsonfield import JSONField
-from openslides.users.models import User
 from openslides.utils.models import RESTModelMixin
 
 from .access_permissions import (
@@ -49,29 +48,13 @@ class ObjectProtocol(RESTModelMixin, models.Model):
         unique_together = ('content_type', 'object_id')
 
 
-class ProtocolManager(models.Manager):
-    """
-    Customized model manager to support our get_full_queryset method.
-    """
-    def get_full_queryset(self):
-        """
-        Returns the normal queryset with all protocols. In the background all
-        users are prefetched from the database.
-        """
-        return self.get_queryset().select_related('user')
-
-
 class Protocol(RESTModelMixin, models.Model):
     """
     Model for a protocol entry for an agenda item.
     """
     access_permissions = ProtocolAccessPermissions()
 
-    objects = ProtocolManager()
-
-    user = models.OneToOneField(User)
-
-    protocol = JSONField()
+    protocol = JSONField(default=[])
 
     class Meta:
         default_permissions = ()

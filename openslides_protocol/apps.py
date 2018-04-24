@@ -1,5 +1,3 @@
-import os
-
 from django.apps import AppConfig
 from openslides.utils.collection import Collection
 
@@ -29,10 +27,15 @@ class ProtocolAppConfig(AppConfig):
 
     def ready(self):
         # Import all required stuff.
+        from openslides.core.config import config
         from openslides.core.signals import post_permission_creation
         from openslides.utils.rest_api import router
+        from .config_variables import get_config_variables
         from .signals import add_permissions_to_builtin_groups
         from .views import ObjectProtocolViewSet, ProtocolViewSet
+
+        # Define config variables
+        config.update_config_variables(get_config_variables())
 
         # Connect signals.
         post_permission_creation.connect(

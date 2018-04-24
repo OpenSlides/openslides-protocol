@@ -1,4 +1,8 @@
 <style type="text/css">
+.protocol .container, .protocol .container .col-md-6.left {
+    padding-left: 0;
+    margin-left: 0;
+}
 .protocol .type-container {
     padding: 0px 10px;
     margin: 10px 0px;
@@ -12,13 +16,14 @@
     border: 1px solid #ddd;
 }
 .protocol .type-container .header {
-    background-color: #eee;
-    padding: 10px;
-    float: right;
-    width: 100%;
+    border-top: 1px solid #ddd !important;
+    background-color: #f5f5f5 !important;
+}
+.protocol .type-container .search {
+    padding: 5px;
 }
 .protocol .type-container .entries {
-    margin-top: 55px;
+    overflow: hidden;
 }
 .protocol .type-container .empty {
   color: #9a9898;
@@ -58,33 +63,32 @@
   <uib-tabset active="activeTab">
     <uib-tab index="'create'" heading="{{ 'Create' | translate }}">
       <div class="container">
-        <div class="col-md-6">
+        <div class="col-md-6 left">
 
           <div class="type-container">
-            <div>
+            <div class="header">
               <h2>
                 <translate>Agenda</translate>
                 <small> &mdash; {{ itemsFiltered.length }}/{{ items.length }}</small>
+                <span class="pull-right pointer" ng-click="collapseAgenda=!collapseAgenda">
+                  <i class="fa" ng-class="collapseAgenda ? 'fa-caret-down' : 'fa-caret-up'"></i>
+                </span>
               </h2>
             </div>
-            <div class="header">
-              <span class="form-inline text-right pull-right">
-                <span class="form-group">
-                  <span class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" ng-model="itemProtocolFilterString" class="form-control"
-                      placeholder="{{ 'Search' | translate}}">
-                  </span>
+            <div class="entries" ng-show="!collapseAgenda">
+              <span class="form-group search">
+                <span class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                  <input type="text" ng-model="itemProtocolFilterString" class="form-control"
+                    placeholder="{{ 'Search' | translate}}">
                 </span>
               </span>
-            </div>
-            <div class="entries">
               <div ng-repeat="item in itemsFiltered = (items
                 | notUsed : protocol : 'itemProtocol'
                 | osFilter : itemProtocolFilterString : getItemProtocolQueryString)">
                 <button type="button" class="btn btn-default btn-sm" ng-click="protocol.add(item)">
                   <i class="fa fa-plus"></i>
-                  {{ item.agenda_item.getTitle() }}
+                  {{ item.agenda_item.getTitle() | plaintextLimit : 60 }}
                 </button>
               </div>
               <div ng-if="itemsFiltered.length === 0">
@@ -94,31 +98,33 @@
           </div>
 
           <div class="type-container">
-            <div>
+            <div class="header">
               <h2>
                 <translate>Motions</translate>
                 <small> &mdash; {{ motionsFiltered.length }}/{{ motions.length }}</small>
+                <span class="pull-right pointer" ng-click="collapseMotions=!collapseMotions">
+                  <i class="fa" ng-class="collapseMotions ? 'fa-caret-down' : 'fa-caret-up'"></i>
+                </span>
               </h2>
             </div>
-            <div class="header">
-              <span class="form-inline text-right pull-right">
-                <span class="form-group">
-                  <span class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" ng-model="motionFilterString" class="form-control"
-                      placeholder="{{ 'Search' | translate}}">
-                  </span>
+            <div class="entries" ng-show="!collapseMotions">
+              <span class="form-group search">
+                <span class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                  <input type="text" ng-model="motionFilterString" class="form-control"
+                    placeholder="{{ 'Search' | translate}}">
                 </span>
               </span>
-            </div>
-            <div class="entries">
               <div ng-repeat="motion in motionsFiltered = (motions
-                | orderBy : 'title'
                 | notUsed : protocol : 'motion'
-                | osFilter : motionFilterString : getMotionQueryString)">
+                | osFilter : motionFilterString : getMotionQueryString)
+                | orderByEmptyLast : 'identifier'">
                 <button type="button" class="btn btn-default btn-sm" ng-click="protocol.add(motion)">
                   <i class="fa fa-plus"></i>
-                  {{ motion.getTitle() }}
+                  <span ng-if="motion.identifier">
+                    {{ motion.identifier }}:
+                  </span>
+                    {{ motion.getTitle() | plaintextLimit : 60 }}
                 </button>
               </div>
               <div ng-if="motionsFiltered.length === 0">
@@ -128,31 +134,30 @@
           </div>
 
           <div class="type-container">
-            <div>
+            <div class="header">
               <h2>
                 <translate>Elections</translate>
                 <small> &mdash; {{ assignmentsFiltered.length }}/{{ assignments.length }}</small>
+                <span class="pull-right pointer" ng-click="collapseAssignments=!collapseAssignments">
+                  <i class="fa" ng-class="collapseAssignments ? 'fa-caret-down' : 'fa-caret-up'"></i>
+                </span>
               </h2>
             </div>
-            <div class="header">
-              <span class="form-inline text-right pull-right">
-                <span class="form-group">
-                  <span class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" ng-model="assignmentFilterString" class="form-control"
-                      placeholder="{{ 'Search' | translate}}">
-                  </span>
+            <div class="entries" ng-show="!collapseAssignments">
+              <span class="form-group search">
+                <span class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                  <input type="text" ng-model="assignmentFilterString" class="form-control"
+                    placeholder="{{ 'Search' | translate}}">
                 </span>
               </span>
-            </div>
-            <div class="entries">
               <div ng-repeat="assignment in assignmentsFiltered = (assignments
                 | orderBy : 'title'
                 | notUsed : protocol : 'assignment'
                 | osFilter : assignmentsFilterString : getAssignmentQueryString)">
                 <button type="button" class="btn btn-default btn-sm" ng-click="protocol.add(assignment)">
                   <i class="fa fa-plus"></i>
-                  {{ assignment.agenda_item.getTitle() || assingment.title }}
+                  {{ assignment.agenda_item.getTitle() || assingment.title | plaintextLimit : 60 }}
                 </button>
               </div>
               <div ng-if="assignmentsFiltered.length === 0">
@@ -178,23 +183,23 @@
 
                 <span ng-if="entry.type === 'text'">
                   <span ng-if="entry.title">
-                    {{ (entry.title + ': ' + entry.text) | plaintextLimit : 50 }}
+                    {{ (entry.title + ': ' + entry.text) | plaintextLimit : 30 }}
                     <span class="type-info">(<translate>Free text</translate>)</span>
                   </span>
                   <span ng-if="!entry.title">
-                    {{ entry.text | plaintextLimit : 40 }}
+                    {{ entry.text | plaintextLimit : 30 }}
                     <span class="type-info">(<translate>Empty free text</translate>)</span>
                   </span>
                 </span>
                 <span ng-if="entry.type === 'topics/topic'">
-                  {{ getObject(entry).agenda_item.getListViewTitle() | plaintextLimit : 50 }}
+                  {{ getObject(entry).agenda_item.getListViewTitle() | plaintextLimit : 30 }}
                 </span>
                 <span ng-if="entry.type === 'motions/motion'">
                     {{ getObject(entry).identifier ? getObject(entry).identifier + ' -' : '' }}
-                    {{ getObject(entry).getTitle() | plaintextLimit : 45 }}
+                    {{ getObject(entry).getTitle() | plaintextLimit : 30 }}
                 </span>
                 <span ng-if="entry.type === 'assignments/assignment'">
-                  {{ getObject(entry).title | plaintextLimit : 50 }}
+                  {{ getObject(entry).title | plaintextLimit : 30 }}
                 </span>
                 <span ng-if="entry.type !== 'text'">
                   <span class="type-info">({{ getTypeVerboseName(entry) | translate }})</span>
@@ -221,17 +226,17 @@
         <div ng-repeat="entry in protocol.protocol">
 
           <div ng-if="entry.type === 'text'">
-            <h3>{{ entry.title }}</h3>
+            <h2>{{ entry.title }}</h2>
             <p class="indent" ng-bind-html="entry.text | trusted"></p>
           </div>
 
           <div ng-if="entry.type === 'topics/topic'">
-            <h3>{{ getObject(entry).agenda_item.getListViewTitle() }}</h3>
+            <h2>{{ getObject(entry).agenda_item.getListViewTitle() }}</h2>
             <p class="indent" ng-bind-html="getObject(entry).text | trusted"></p>
           </div>
 
           <div ng-if="entry.type === 'motions/motion'">
-            <h3><translate>Motion</translate> {{ getObject(entry).identifier ? getObject(entry).identifier + ' - ' : '' }}{{ getObject(entry).getTitle() }}</h3>
+            <h2><translate>Motion</translate> {{ getObject(entry).identifier ? getObject(entry).identifier + ' - ' : '' }}{{ getObject(entry).getTitle() }}</h2>
             <div class="indent">
               <strong translate>State</strong>:
                <span class="label" ng-class="'label-' + getObject(entry).state.css_class">
@@ -247,14 +252,14 @@
             <div class="spacer-top indent"><p>{{ config('motions_preamble') | translate }}</p></div>
             <div ng-bind-html="getObject(entry).getTextByMode('agreed') | trusted"
               class="indent motion-text motion-text-changed line-numbers-{{ config('motions_default_line_numbering') }}"></div>
-            <div class="indent" ng-if="getObject(entry).getReason()">
+            <div class="indent" ng-if="getObject(entry).getReason() && config('protocol_motion_reason')">
               <h2 translate>Reason</h2>
               <div ng-bind-html="getObject(entry).getReason() | trusted"></div>
             </div>
           </div>
 
           <div ng-if="entry.type === 'assignments/assignment'">
-            <h3>{{ getObject(entry).title }}</h3>
+            <h2>{{ getObject(entry).title }}</h2>
             <div>
               <strong translate>Phase</strong>:
               <span class="label" ng-class="{'label-primary': getObject(entry).phase == 0,
@@ -289,7 +294,7 @@
           </div>
 
           <div class="indent" ng-if="hasProtocol(entry)">
-            <h2 translate>Protocol</h2>
+            <h3 translate>Protocol</h3>
             <div ng-bind-html="getProtocol(entry) | trusted"></div>
           </div>
 

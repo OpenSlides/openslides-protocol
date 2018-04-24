@@ -57,11 +57,6 @@ angular.module('OpenSlidesApp.openslides_protocol', [
     'operator',
     'ObjectProtocol',
     function (DS, gettext, operator, ObjectProtocol) {
-        /*var getProtocol = function (item) {
-            return _.find(ItemProtocol.getAll(), function (protocol) {
-                return protocol.item.id === item.id;
-            }).protocol;
-        };*/
         var getNextIdForText = function (protocol) {
             var highestIdFound = -1;
             _.forEach(protocol, function (entry) {
@@ -75,14 +70,6 @@ angular.module('OpenSlidesApp.openslides_protocol', [
         var name = 'openslides_protocol/protocol';
         return DS.defineResource({
             name: name,
-            relations: {
-                belongsTo: {
-                    'users/user': {
-                        localField: 'user',
-                        localKey: 'user_id',
-                    }
-                }
-            },
             methods: {
                 add: function (obj, type) {
                     if (!type) {
@@ -129,29 +116,6 @@ angular.module('OpenSlidesApp.openslides_protocol', [
                 },
             },
         });
-    }
-])
-
-.factory('ProtocolManager', [
-    'Protocol',
-    function (Protocol) {
-        return {
-            getOrCreateProtocol: function () {
-                return Protocol.findAll().then(function (protocols) {
-                    if (protocols.length) {
-                        return protocols[0];
-                    } else {
-                        return Protocol.create({protocol: []});
-                    }
-                });
-            },
-            getProtocol: function () {
-                var protocols = Protocol.getAll();
-                if (protocols.length) {
-                    return protocols[0];
-                }
-            },
-        };
     }
 ])
 
