@@ -5,8 +5,15 @@ from __future__ import unicode_literals
 import django.db.models.deletion
 import jsonfield.fields
 import openslides.utils.models
-from django.conf import settings
 from django.db import migrations, models
+
+
+def add_protocol(apps, schema_editor):
+    """
+    Adds the one and only projector
+    """
+    Protocol = apps.get_model('openslides_protocol', 'Protocol')
+    Protocol.objects.bulk_create([Protocol(protocol=[])])
 
 
 class Migration(migrations.Migration):
@@ -24,7 +31,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('protocol', jsonfield.fields.JSONField()),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'default_permissions': (),
@@ -48,5 +54,12 @@ class Migration(migrations.Migration):
                 'permissions': (('can_write_protocol', 'Can write protocol'),),
             },
             bases=(openslides.utils.models.RESTModelMixin, models.Model),
+        ),
+        migrations.AlterUniqueTogether(
+            name='objectprotocol',
+            unique_together=set([('content_type', 'object_id')]),
+        ),
+        migrations.RunPython(
+            add_protocol
         ),
     ]

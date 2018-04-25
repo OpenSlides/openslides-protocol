@@ -74,7 +74,5 @@ class ProtocolSerializer(ModelSerializer):
         model = Protocol
         fields = (
             'id',
-            'user',
             'protocol',
         )
-        read_only_fields = ('user', )

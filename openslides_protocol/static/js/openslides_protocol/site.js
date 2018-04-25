@@ -70,9 +70,9 @@ angular.module('OpenSlidesApp.openslides_protocol.site', [
                     closeByEscape: false,
                     closeByDocument: false,
                     resolve: {
-                        contentObject: function () {return contentObject; },
-                        objectProtocol: function () {return objectProtocol; },
-                        deleteEnabled: function () {return deleteEnabled && !!objectProtocol; },
+                        contentObject: function () { return contentObject; },
+                        objectProtocol: function () { return objectProtocol; },
+                        deleteEnabled: function () { return deleteEnabled && !!objectProtocol; },
                     },
                 };
             },
@@ -148,14 +148,12 @@ angular.module('OpenSlidesApp.openslides_protocol.site', [
     'Motion',
     'Assignment',
     'AssignmentPhases',
-    'User',
     'Protocol',
-    'ProtocolManager',
     'ngDialog',
     'ObjectProtocolDialog',
     'FreeTextDialog',
     function ($scope, $filter, gettextCatalog, DS, ObjectProtocol, Agenda, AgendaTree,
-        Motion, Assignment, AssignmentPhases, User, Protocol, ProtocolManager, ngDialog,
+        Motion, Assignment, AssignmentPhases, Protocol, ngDialog,
         ObjectProtocolDialog, FreeTextDialog) {
         $scope.$watch(function () {
             return Agenda.lastModified();
@@ -167,16 +165,12 @@ angular.module('OpenSlidesApp.openslides_protocol.site', [
         ObjectProtocol.bindAll({}, $scope, 'objectProtocols');
         Motion.bindAll({}, $scope, 'motions');
         Assignment.bindAll({}, $scope, 'assignments');
-        User.bindAll({}, $scope, 'users');
         $scope.phases = AssignmentPhases;
 
-        ProtocolManager.getOrCreateProtocol().then(function (protocol) {
-            $scope.protocol = protocol;
-            $scope.$watch(function () {
-                return Protocol.lastModified();
-            }, function () {
-                $scope.protocol = ProtocolManager.getProtocol();
-            });
+        $scope.$watch(function () {
+            return Protocol.lastModified();
+        }, function () {
+            $scope.protocol = Protocol.get(1);
         });
 
         $scope.addFreeText = function () {
@@ -386,6 +380,14 @@ angular.module('OpenSlidesApp.openslides_protocol.site', [
             }
             return text;
         };
+    }
+])
+
+.config([
+    'gettext',
+    function (gettext) {
+        // Config strings
+        gettext('Add motion reason in protocol');
     }
 ]);
 

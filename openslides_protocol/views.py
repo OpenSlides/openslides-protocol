@@ -51,30 +51,10 @@ class ProtocolViewSet(ModelViewSet):
     queryset = Protocol.objects.all()
 
     def check_view_permissions(self):
-        return (has_perm(self.request.user, 'openslides_protocol.can_write_protocol') and
-                self.request.user.is_authenticated())
-
-    def perform_create(self, serializer):
         """
-        Customized method to inject the request.user into serializer's save
-        method so that the request.user can be saved into the model field.
+        Just allow list, retrieve and update.
         """
-        serializer.save(user=self.request.user)
-
-    def update(self, request, *args, **kwargs):
-        """
-        Customized method to ensure that every user can change only his own
-        personal notes.
-        """
-        if self.get_object().user != self.request.user:
-            self.permission_denied(request)
-        return super().update(request, *args, **kwargs)
-
-    def destroy(self, request, *args, **kwargs):
-        """
-        Customized method to ensure that every user can delete only his own
-        personal notes.
-        """
-        if self.get_object().user != self.request.user:
-            self.permission_denied(request)
-        return super().destroy(request, *args, **kwargs)
+        if self.action in ('list', 'retrieve', 'update'):
+            return has_perm(self.request.user, 'openslides_protocol.can_write_protocol')
+        else:
+            return False

@@ -20,7 +20,7 @@ class ProtocolAccessPermissions(BaseAccessPermissions):
     Access permissions for Protocol and the ViewSet.
     """
     def check_permissions(self, user):
-        return True
+        return has_perm(user, 'openslides_protocol.can_write_protocol')
 
     def get_serializer_class(self, user=None):
         from .serializers import ProtocolSerializer
