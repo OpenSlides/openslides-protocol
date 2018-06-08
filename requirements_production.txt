@@ -1,5 +1,1 @@
-openslides>=2.1
-
-# Lockdown daphne. Currently only compatible with 1.x
-# See issue #11
-daphne<2
+openslides>=2.2,<2.3
