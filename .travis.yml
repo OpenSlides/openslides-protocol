@@ -16,6 +16,7 @@ before_install:
 install:
   - pip install --upgrade setuptools pip
   - pip install -r requirements.txt
+  - pip install mypy
   - pip freeze
   - yarn
 script:

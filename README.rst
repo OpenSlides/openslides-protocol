@@ -12,7 +12,7 @@ OpenSlides.
 Requirements
 ============
 
-OpenSlides 1.6.x (http://openslides.org/)
+OpenSlides 2.2.x (http://openslides.org/)
 
 
 Install
@@ -37,7 +37,7 @@ plugin in it::
 
     $ source .virtualenv/bin/activate
 
-    $ pip install "openslides>=1.6,<1.7" openslides-protocol
+    $ pip install openslides openslides-protocol
 
 Start OpenSlides::
 
@@ -57,3 +57,4 @@ Changelog
 Version 1.0 (unreleased)
 ------------------------
 * First release of this plugin.
+* Added support for OpenSlides 2.2
