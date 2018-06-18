@@ -1,0 +1,152 @@
+# Translators:
+# Andreas Engler <engel.a@web.de>, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Last-Translator: Andreas Engler <engel.a@web.de>, 2018\n"
+"Language-Team: Russian (https://www.transifex.com/openslides/teams/14270/ru/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: openslides_protocol/site.js:390
+msgid "Add motion reason in protocol"
+msgstr "Добавить заявление в протокол"
+
+#: openslides_protocol/protocol-list.html:71
+msgid "Agenda"
+msgstr "Повестка дня"
+
+#: openslides_protocol/object-protocol-form.html:19
+msgid "Are you sure to delete this protocol?"
+msgstr "Вы действительно хотите удалить этот протокол?"
+
+#: openslides_protocol/protocol-list.html:276
+msgid "Ballots"
+msgstr "Избирательные листы"
+
+#: openslides_protocol/object-protocol-form.html:16
+msgid "Cancel"
+msgstr "Отменить"
+
+#: openslides_protocol/protocol-list.html:64
+msgid "Create"
+msgstr "Создать"
+
+#: openslides_protocol/agenda-hook.html:5
+#: openslides_protocol/assignment-list-hook.html:5
+#: openslides_protocol/motion-list-hook.html:5
+msgid "Create protocol"
+msgstr "Создать протокол"
+
+#: openslides_protocol/object-protocol-form.html:4
+msgid "Create protocol for"
+msgstr "Создать протокол для"
+
+#: openslides_protocol/object-protocol-form.html:21
+msgid "Delete"
+msgstr "Удалить"
+
+#: openslides_protocol/protocol-list.html:272
+msgid "Description"
+msgstr "Описание"
+
+#: openslides_protocol/object-protocol-form.html:1
+msgid "Edit freetext"
+msgstr "Редактировать свободный текст"
+
+#: openslides_protocol/object-protocol-form.html:3
+msgid "Edit protocol for"
+msgstr "Изменить протокол для"
+
+#: openslides_protocol/protocol-list.html:139
+msgid "Elections"
+msgstr "Выборы"
+
+#: openslides_protocol/protocol-list.html:191
+msgid "Empty free text"
+msgstr "Пустой свободный текст"
+
+#: openslides_protocol/protocol-list.html:175
+#: openslides_protocol/protocol-list.html:187 openslides_protocol/site.js:178
+msgid "Free text"
+msgstr "Свободный текст"
+
+#: openslides_protocol/protocol-list.html:239
+msgid "Motion"
+msgstr "Заявление"
+
+#: openslides_protocol/protocol-list.html:103
+msgid "Motions"
+msgstr "Заявления"
+
+#: openslides_protocol/site.js:179
+msgid "New free text"
+msgstr "Новый свободный текст"
+
+#: openslides_protocol/protocol-list.html:264
+msgid "Phase"
+msgstr "Фаза"
+
+#: openslides_protocol/protocol-list.html:223
+msgid "Preview"
+msgstr "Предварительный просмотр"
+
+#: openslides_protocol/agenda-hook.html:3
+#: openslides_protocol/assignment-detail-hook.html:9
+#: openslides_protocol/assignment-list-hook.html:3
+#: openslides_protocol/motion-detail-hook.html:9
+#: openslides_protocol/motion-list-hook.html:3
+#: openslides_protocol/protocol-list.html:171
+#: openslides_protocol/protocol-list.html:225
+#: openslides_protocol/protocol-list.html:297
+#: openslides_protocol/protocol-list.html:58 openslides_protocol/site.js:17
+#: openslides_protocol/site.js:29 openslides_protocol/site.js:85
+#: openslides_protocol/topic-detail-hook.html:9
+msgid "Protocol"
+msgstr "Протокол"
+
+#: openslides_protocol/protocol-list.html:256
+msgid "Reason"
+msgstr "Причина"
+
+#: openslides_protocol/object-protocol-form.html:13
+msgid "Save"
+msgstr "Сохранить"
+
+#: openslides_protocol/protocol-list.html:115
+#: openslides_protocol/protocol-list.html:151
+#: openslides_protocol/protocol-list.html:83
+msgid "Search"
+msgstr "Поиск"
+
+#: openslides_protocol/protocol-list.html:54
+msgid "Select all"
+msgstr "Выбрать все"
+
+#: openslides_protocol/protocol-list.html:241
+msgid "State"
+msgstr "Статус"
+
+#: openslides_protocol/protocol-list.html:247
+msgid "Submitters"
+msgstr "Заявители"
+
+#: openslides_protocol/site.js:128
+msgid "Text"
+msgstr "Текст"
+
+#: openslides_protocol/site.js:121
+msgid "Title"
+msgstr "Титул"
+
+#: openslides_protocol/protocol-list.html:282
+msgid "elected"
+msgstr "избран"
+
+#: openslides_protocol/protocol-list.html:131
+#: openslides_protocol/protocol-list.html:164
+#: openslides_protocol/protocol-list.html:95
+msgid "empty"
+msgstr "пустой"
