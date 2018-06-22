@@ -54,7 +54,11 @@ MIT License, see LICENSE file. The authors are mentioned in the AUTHORS file.
 Changelog
 =========
 
-Version 1.0 (unreleased)
+Version 1.1 (unreleased)
+------------------------
+
+
+Version 1.0 (2018-06-22)
 ------------------------
 * First release of this plugin.
 * Added support for OpenSlides 2.2
