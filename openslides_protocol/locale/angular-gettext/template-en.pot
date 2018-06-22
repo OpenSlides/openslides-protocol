@@ -12,19 +12,19 @@ msgstr ""
 msgid "Agenda"
 msgstr ""
 
-#: openslides_protocol/object-protocol-form.html:19
+#: openslides_protocol/object-protocol-form.html:18
 msgid "Are you sure to delete this protocol?"
 msgstr ""
 
-#: openslides_protocol/protocol-list.html:276
-msgid "Ballots"
+#: openslides_protocol/protocol-list.html:277
+msgid "Ballot"
 msgstr ""
 
 #: openslides_protocol/site.js:390
 msgid "Can write protocol"
 msgstr ""
 
-#: openslides_protocol/object-protocol-form.html:16
+#: openslides_protocol/object-protocol-form.html:15
 msgid "Cancel"
 msgstr ""
 
@@ -38,11 +38,7 @@ msgstr ""
 msgid "Create protocol"
 msgstr ""
 
-#: openslides_protocol/object-protocol-form.html:4
-msgid "Create protocol for"
-msgstr ""
-
-#: openslides_protocol/object-protocol-form.html:21
+#: openslides_protocol/object-protocol-form.html:20
 msgid "Delete"
 msgstr ""
 
@@ -52,10 +48,6 @@ msgstr ""
 
 #: openslides_protocol/object-protocol-form.html:1
 msgid "Edit freetext"
-msgstr ""
-
-#: openslides_protocol/object-protocol-form.html:3
-msgid "Edit protocol for"
 msgstr ""
 
 #: openslides_protocol/protocol-list.html:139
@@ -99,7 +91,7 @@ msgstr ""
 #: openslides_protocol/motion-list-hook.html:3
 #: openslides_protocol/protocol-list.html:171
 #: openslides_protocol/protocol-list.html:225
-#: openslides_protocol/protocol-list.html:297
+#: openslides_protocol/protocol-list.html:294
 #: openslides_protocol/protocol-list.html:58
 #: openslides_protocol/site.js:17
 #: openslides_protocol/site.js:29
@@ -108,11 +100,15 @@ msgstr ""
 msgid "Protocol"
 msgstr ""
 
+#: openslides_protocol/object-protocol-form.html:3
+msgid "Protocol to"
+msgstr ""
+
 #: openslides_protocol/protocol-list.html:256
 msgid "Reason"
 msgstr ""
 
-#: openslides_protocol/object-protocol-form.html:13
+#: openslides_protocol/object-protocol-form.html:12
 msgid "Save"
 msgstr ""
 
@@ -142,7 +138,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: openslides_protocol/protocol-list.html:282
+#: openslides_protocol/protocol-list.html:280
 msgid "elected"
 msgstr ""
 

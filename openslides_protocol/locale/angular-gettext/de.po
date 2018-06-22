@@ -1,10 +1,10 @@
 # Translators:
-# Finn Stutzenstein <finn.stutzenstein@hotmail.de>, 2017
 # Emanuel Schütze <emanuel.schuetze@intevation.de>, 2017
+# Finn Stutzenstein <finn.stutzenstein@hotmail.de>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Last-Translator: Emanuel Schütze <emanuel.schuetze@intevation.de>, 2017\n"
+"Last-Translator: Finn Stutzenstein <finn.stutzenstein@hotmail.de>, 2017\n"
 "Language-Team: German (https://www.transifex.com/openslides/teams/14270/de/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,21 +17,21 @@ msgstr "Antragsbegründung zum Protokoll hinzufügen"
 
 #: openslides_protocol/protocol-list.html:71
 msgid "Agenda"
-msgstr "Agenda"
+msgstr "Tagesordnung"
 
-#: openslides_protocol/object-protocol-form.html:19
+#: openslides_protocol/object-protocol-form.html:18
 msgid "Are you sure to delete this protocol?"
-msgstr "Sind Sie sicher dieses Protokoll zu löschen?"
+msgstr "Soll dieses Protokoll wirklich gelöscht werden?"
 
-#: openslides_protocol/protocol-list.html:276
-msgid "Ballots"
+#: openslides_protocol/protocol-list.html:277
+msgid "Ballot"
 msgstr "Wahlgang"
 
 #: openslides_protocol/site.js:390
 msgid "Can write protocol"
 msgstr "Darf das Protokoll erstellen"
 
-#: openslides_protocol/object-protocol-form.html:16
+#: openslides_protocol/object-protocol-form.html:15
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -45,11 +45,7 @@ msgstr "Erstellen"
 msgid "Create protocol"
 msgstr "Protokoll erstellen"
 
-#: openslides_protocol/object-protocol-form.html:4
-msgid "Create protocol for"
-msgstr "Erstelle Protokoll für"
-
-#: openslides_protocol/object-protocol-form.html:21
+#: openslides_protocol/object-protocol-form.html:20
 msgid "Delete"
 msgstr "Löschen"
 
@@ -60,10 +56,6 @@ msgstr "Beschreibung"
 #: openslides_protocol/object-protocol-form.html:1
 msgid "Edit freetext"
 msgstr "Freitext bearbeiten"
-
-#: openslides_protocol/object-protocol-form.html:3
-msgid "Edit protocol for"
-msgstr "Bearbeite Protokoll für"
 
 #: openslides_protocol/protocol-list.html:139
 msgid "Elections"
@@ -105,18 +97,22 @@ msgstr "Vorschau"
 #: openslides_protocol/motion-list-hook.html:3
 #: openslides_protocol/protocol-list.html:171
 #: openslides_protocol/protocol-list.html:225
-#: openslides_protocol/protocol-list.html:297
+#: openslides_protocol/protocol-list.html:294
 #: openslides_protocol/protocol-list.html:58 openslides_protocol/site.js:17
 #: openslides_protocol/site.js:29 openslides_protocol/site.js:85
 #: openslides_protocol/topic-detail-hook.html:9
 msgid "Protocol"
 msgstr "Protokoll"
 
+#: openslides_protocol/object-protocol-form.html:3
+msgid "Protocol to"
+msgstr "Protokoll zu"
+
 #: openslides_protocol/protocol-list.html:256
 msgid "Reason"
 msgstr "Begründung"
 
-#: openslides_protocol/object-protocol-form.html:13
+#: openslides_protocol/object-protocol-form.html:12
 msgid "Save"
 msgstr "Speichern"
 
@@ -146,7 +142,7 @@ msgstr "Text"
 msgid "Title"
 msgstr "Titel"
 
-#: openslides_protocol/protocol-list.html:282
+#: openslides_protocol/protocol-list.html:280
 msgid "elected"
 msgstr "gewählt"
 
