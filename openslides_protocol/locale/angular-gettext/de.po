@@ -1,17 +1,17 @@
 # Translators:
 # Finn Stutzenstein <finn.stutzenstein@hotmail.de>, 2017
-# Emanuel Schütze <emanuel.schuetze@intevation.de>, 2018
+# Emanuel Schütze <emanuel.schuetze@intevation.de>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Last-Translator: Emanuel Schütze <emanuel.schuetze@intevation.de>, 2018\n"
+"Last-Translator: Emanuel Schütze <emanuel.schuetze@intevation.de>, 2017\n"
 "Language-Team: German (https://www.transifex.com/openslides/teams/14270/de/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: openslides_protocol/site.js:390
+#: openslides_protocol/site.js:392
 msgid "Add motion reason in protocol"
 msgstr "Antragsbegründung zum Protokoll hinzufügen"
 
@@ -26,6 +26,10 @@ msgstr "Sind Sie sicher dieses Protokoll zu löschen?"
 #: openslides_protocol/protocol-list.html:276
 msgid "Ballots"
 msgstr "Wahlgang"
+
+#: openslides_protocol/site.js:390
+msgid "Can write protocol"
+msgstr "Darf das Protokoll erstellen"
 
 #: openslides_protocol/object-protocol-form.html:16
 msgid "Cancel"
@@ -124,7 +128,7 @@ msgstr "Suchen"
 
 #: openslides_protocol/protocol-list.html:54
 msgid "Select all"
-msgstr "Alle auswählen"
+msgstr "Alles auswählen"
 
 #: openslides_protocol/protocol-list.html:241
 msgid "State"

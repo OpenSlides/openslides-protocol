@@ -4,7 +4,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: openslides_protocol/site.js:390
+#: openslides_protocol/site.js:392
 msgid "Add motion reason in protocol"
 msgstr ""
 
@@ -18,6 +18,10 @@ msgstr ""
 
 #: openslides_protocol/protocol-list.html:276
 msgid "Ballots"
+msgstr ""
+
+#: openslides_protocol/site.js:390
+msgid "Can write protocol"
 msgstr ""
 
 #: openslides_protocol/object-protocol-form.html:16

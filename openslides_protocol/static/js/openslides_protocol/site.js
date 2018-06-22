@@ -386,6 +386,8 @@ angular.module('OpenSlidesApp.openslides_protocol.site', [
 .config([
     'gettext',
     function (gettext) {
+        // Permissions
+        gettext('Can write protocol');
         // Config strings
         gettext('Add motion reason in protocol');
     }
