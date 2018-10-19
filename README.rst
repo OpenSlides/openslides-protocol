@@ -12,7 +12,7 @@ OpenSlides.
 Requirements
 ============
 
-OpenSlides 2.2.x (http://openslides.org/)
+OpenSlides 2.2|2.3.x (https://openslides.org/)
 
 
 Install
@@ -54,9 +54,9 @@ MIT License, see LICENSE file. The authors are mentioned in the AUTHORS file.
 Changelog
 =========
 
-Version 1.1 (unreleased)
-------------------------
-
+Version 1.0.1 (2018-10-19)
+--------------------------
+* support for OpenSlides 2.3
 
 Version 1.0 (2018-06-22)
 ------------------------
