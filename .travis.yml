@@ -1,14 +1,15 @@
 language: python
-sudo: false
+dist: xenial
+sudo: true
 cache:
   pip: true
   yarn: true
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
 env:
-  - TRAVIS_NODE_VERSION="4"
+  - TRAVIS_NODE_VERSION="10.5"
 before_install:
   - nvm install $TRAVIS_NODE_VERSION
   - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -16,11 +17,11 @@ before_install:
 install:
   - pip install --upgrade setuptools pip
   - pip install -r requirements.txt
-  - pip install mypy
+  - pip install 'mypy<=0.620'
   - pip freeze
   - yarn
 script:
   - node_modules/.bin/gulp jshint
-  - if [ "`python --version`" \> "Python 3.5.0" ]; then isort --check-only --recursive openslides_protocol tests; fi
+  - isort --check-only --recursive openslides_protocol tests
   - flake8 openslides_protocol tests
   - PYTHONPATH=./ DJANGO_SETTINGS_MODULE='tests.settings' openslides test
