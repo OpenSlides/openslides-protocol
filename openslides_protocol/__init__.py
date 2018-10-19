@@ -1,6 +1,6 @@
 __verbose_name__ = 'OpenSlides Protocol Plugin'
 __description__ = 'This plugin provides a protocol feature for OpenSlides.'
-__version__ = '1.0.1'
+__version__ = '1.0.2-dev'
 __license__ = 'MIT'
 __url__ = 'https://github.com/OpenSlides/openslides-protocol'
 
